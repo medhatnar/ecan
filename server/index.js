@@ -1,4 +1,5 @@
 require('dotenv').config();
+var jwt = require('jsonwebtoken');
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
@@ -23,8 +24,10 @@ app.use(session({
 }));
 
 
+
 var port = process.env.PORT || 5000;
 app.listen(port,(err) => {
   console.log("Listening on port " + port);
 });
 module.exports = app;
+
