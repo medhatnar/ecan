@@ -25,7 +25,7 @@ app.use(session({
 
 
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 3306;
 app.listen(port,(err) => {
   console.log("Listening on port " + port);
 });
