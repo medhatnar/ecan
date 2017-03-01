@@ -1,13 +1,14 @@
 require('dotenv').config();
-var jwt = require('jsonwebtoken');
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
-var request = require('request');
-var morgan = require('morgan');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var app = express();
+const jwt = require('jsonwebtoken');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const request = require('request');
+const morgan = require('morgan');
+const router = require('./routes.js');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const app = express();
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
@@ -25,7 +26,7 @@ app.use(session({
 
 
 
-var port = process.env.PORT || 3306;
+const port = process.env.PORT || 3306;
 app.listen(port,(err) => {
   console.log("Listening on port " + port);
 });
