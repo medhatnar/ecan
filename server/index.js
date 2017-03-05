@@ -8,7 +8,9 @@ const morgan = require('morgan');
 const router = require('./routes.js');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const connection = require('./database/connection.js');
 const app = express();
+
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({
@@ -18,12 +20,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client')));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
-app.use(session({
-  secret:"someSecret",
-  resave: true,
-  saveUninitialized: true
-}));
-
+app.use(router);
 
 
 const port = process.env.PORT || 3306;
