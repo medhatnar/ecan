@@ -1,5 +1,5 @@
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
+const mysql      = require('mysql');
+const connection = mysql.createConnection({
   host     : 'fedora-nyc1.laulabs.net',
   user     : 'narmin',
   password : 'narmin123',

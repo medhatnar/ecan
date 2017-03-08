@@ -1,1 +1,1 @@
-var models = require('../models/PermissionsModel.js');
+const models = require('../models/PermissionsModel.js');

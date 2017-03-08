@@ -1,17 +1,27 @@
-var db = require('../connection.js');
+const db = require('../connection.js');
+const query = require('../queries.js');
 
 module.exports = {
+  // signin: {
 
-    post: function (params, callback) {
+  // },
+
+  signup: {
+    get: (params,callback) => {
+
+    db.query(query.checkIfUserExists(params),(err,results) => {
+
+        console.log("ERROR:",err,"RESULTS:",results);
+
+    })
+
+    },
+    post: (params, callback) => {
       // create a user
-      console.log("PARAMS IN model: ",params);
+      db.query(query.insertNewUser, params, (err, results) => {
 
-      var queryStr = 'insert into events_manager.users(`username`, `password`, `email`, `groups_id`) values (?, ?, ?, ?)';
-      console.log("QUERY DAT STRANGER THINGS!!:", queryStr);
-
-      db.query(queryStr, params, function(err, results) {
-        console.log("err & results", err,results);
         callback(err, results);
-    });
+      });
+    }
   }
 };

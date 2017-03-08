@@ -1,21 +1,32 @@
-var Users = require('../models/UserModel.js');
+const Users = require('../models/UserModel.js');
 
 module.exports = {
-    get: function (req, res) {
-      Users.get(function(err, results) {
-        if (err) {  console.assert("USER NOT CREATED") }
-        res.json(results);
-      });
-    },
-    post: function (req, res) {
+ //  signin: {
+ //    get: (req, res) => {
+      
+ //    },
+ //    post: (req, res) => {
 
-      var params = [req.body.username, req.body.password, req.body.email, 3];
-      console.log("WHAT IS THE PARAMS: ", params);
+ //  }
+ // },
+  signup: {
 
-      Users.post(params, function(err, results) {
-        if (err) { console.assert("USER NOT CREATED") }
-        res.sendStatus(201);
-    });
+  post: (req, res) => {
+
+        if(Users.signup.get(req.body.username) > 0) {
+          console.log("This username is taken");
+  
+        } else {
+
+        let params = [req.body.username, req.body.password, req.body.email, 3];
+        console.log("WHAT IS THE PARAMS: ", params);
+
+        Users.signup.post(params, (err, results) => {
+          if (err) { console.assert("USER NOT CREATED") }
+          res.sendStatus(201);
+        });
+      }
+    }
   }
 };
 

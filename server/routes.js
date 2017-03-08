@@ -8,7 +8,9 @@ const PermissionsController = require('./database/controllers/PermissionsControl
 
 //Connect controller methods to their corresponding routes
 
-router.post('/signup', UserController.post);
+// router.post('/signin', UserController.signin.post);
+
+router.post('/signup', UserController.signup.post);
 
 
 module.exports = router;
