@@ -1,12 +1,15 @@
-const mysql      = require('mysql');
-const connection = mysql.createConnection({
-  host     : 'fedora-nyc1.laulabs.net',
-  user     : 'narmin',
-  password : 'narmin123',
-  database : 'events_manager',
-  port: 3306
+const config = require('./config.js');
+const knex = require('knex')({
+
+  client: 'mysql',
+  connection: { 
+    host: config.host,
+    user: config.user,
+    password: config.password,
+    database: config.database,
+    charset: config.charset
+  },
+  useNullasDefault: true
 });
 
-connection.connect();
-
-module.exports = connection;
+module.exports = knex;
