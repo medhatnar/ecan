@@ -10,7 +10,7 @@ const PermissionsController = require('./database/controllers/PermissionsControl
 
 // router.post('/signin', UserController.signin.post);
 
-router.post('/signup', UserController.signup.post);
-
+router.get('/signup', UserController.signup.get);
+router.post('/signup', UserController.signup.get);
 
 module.exports = router;

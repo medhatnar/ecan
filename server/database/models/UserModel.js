@@ -11,7 +11,9 @@ module.exports = {
 
     db.query(query.checkIfUserExists(params),(err,results) => {
 
-        console.log("ERROR:",err,"RESULTS:",results);
+      console.log("THIS IS THE RESULT: ", results[0]['count(*)']);
+
+        return results[0]['count(*)'];
 
     })
 
