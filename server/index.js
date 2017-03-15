@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv').config(); 
+const passport = require('passport');  
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -13,6 +14,7 @@ const app = express();
 
 
 app.use(morgan('dev'));
+app.use(passport.initialize());
 app.use(bodyParser.urlencoded({
   extended:true
 }));
@@ -21,6 +23,10 @@ app.use(express.static(path.join(__dirname, '/../client')));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(router);
+
+app.get('/', function(req, res) {  
+  res.send('Relax. We will put the home page here later.');
+});
 
 
 const port = process.env.PORT || 3306;
