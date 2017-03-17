@@ -1,12 +1,17 @@
 require('dotenv').config(); 
-const passport = require('passport');  
+const _ = require("lodash");
 const jwt = require('jsonwebtoken');
+const passport = require('passport'); 
+const passportJWT = require('passport-jwt'); 
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const request = require('request');
 const morgan = require('morgan');
-const router = require('./routes.js');
+const authRouter = require('./routes/authRoutes.js');
+const router = require('./routes/serviceRoutes.js');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const connection = require('./database/connection.js');
@@ -22,7 +27,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/../client')));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
-app.use(router);
+app.use(authRouter);
 
 app.get('/', function(req, res) {  
   res.send('Relax. We will put the home page here later.');
