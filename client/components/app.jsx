@@ -1,12 +1,15 @@
 import React from 'react';
 import { Component } from 'react';
+import Nav from './nav.jsx';
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return (
       <div>
-     	One there will be components here
+     	<Nav />
       </div>
     );
   }
 }
+
+export default App;

@@ -11,6 +11,7 @@ import { Route } from 'react-router'
 
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
+import App from './components/app.js'
 import reducers from './reducers';
 
 const history = createHistory();
@@ -29,9 +30,7 @@ ReactDOM.render(
 
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <div>
-     
-      </div>
+      <App />
     </ConnectedRouter>
   </Provider>
   , document.querySelector('.container'));

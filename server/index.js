@@ -20,27 +20,22 @@ app.use(bodyParser.urlencoded({
   extended:true
 }));
 app.use(bodyParser.json());
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, '../client')));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(flash());
-app.use(authRouter);
 
 
-const checkToken = (req,res,next) => {
+// const checkToken = (req,res,next) => {
 
-	Auth.isSignedIn(req,res,next)
+// 	Auth.isSignedIn(req,res,next)
 
-	next()
-}
+// 	next()
+// }
 
-app.use(checkToken);
+// app.use(checkToken);
 
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/../client/main.html'));
-});
-
-app.use('/', authRouter);
+app.use('/',authRouter);
 app.use('/api',router);
 
 const port = process.env.PORT || 3006;
