@@ -8,11 +8,15 @@ import { Provider } from 'react-redux'
 import createHistory from 'history/createBrowserHistory'
 import { Route } from 'react-router'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
-import App from './components/app.js'
+import App from './components/app.jsx'
 import reducers from './reducers';
+
+injectTapEventPlugin();
 
 const history = createHistory();
 
@@ -26,11 +30,17 @@ const store = createStore(
   applyMiddleware(middleware, ReduxThunk)
 )
 
-ReactDOM.render(
 
+
+ReactDOM.render(
+ 
   <Provider store={store}>
+
     <ConnectedRouter history={history}>
+    <MuiThemeProvider>
       <App />
+      </MuiThemeProvider>
     </ConnectedRouter>
   </Provider>
+ 
   , document.querySelector('.container'));

@@ -1,34 +1,66 @@
 import React from 'react';
 import { Component } from 'react';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import SwipeableViews from 'react-swipeable-views';
 
-class Nav extends Component {
+const styles = {
+  headline: {
+    fontSize: 24,
+    paddingTop: 16,
+    marginBottom: 12,
+    fontWeight: 400,
+  },
+  slide: {
+    padding: 10,
+  },
+};
+
+
+class SwipeViews extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      slideIndex: 0,
+    };
+  }
+
+  handleChange = (value) => {
+    this.setState({
+      slideIndex: value,
+    });
+  };
+
   render() {
     return (
-   <div> 	
-    <div className="container-fluid display-table">
-        <div className="row display-table-row">
-            <div className="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
-                <div className="logo">
-                    <a href="home.html">
-                        Home logo
-                    </a>
-                </div>
-                <div className="navi">
-                    <ul>
-                        <li className="active"><a href="#"><i className="fa fa-home" aria-hidden="true"></i><span className="hidden-xs hidden-sm">Home</span></a></li>
-
-                        <li><a href="#"><i className="fa fa-tasks" aria-hidden="true"></i><span className="hidden-xs hidden-sm">Workflow</span></a></li>
-                        <li><a href="#"><i className="fa fa-bar-chart" aria-hidden="true"></i><span className="hidden-xs hidden-sm">Statistics</span></a></li>
-                        <li><a href="#"><i className="fa fa-user" aria-hidden="true"></i><span className="hidden-xs hidden-sm">Calender</span></a></li>
-                        <li><a href="#"><i className="fa fa-calendar" aria-hidden="true"></i><span className="hidden-xs hidden-sm">Users</span></a></li>
-                        <li><a href="#"><i className="fa fa-cog" aria-hidden="true"></i><span className="hidden-xs hidden-sm">Setting</span></a></li>
-                    </ul>
-                </div>
-            </div>
+      <div>
+        <Tabs
+          onChange={this.handleChange}
+          value={this.state.slideIndex}
+        >
+          <Tab label="Tab One" value={0} />
+          <Tab label="Tab Two" value={1} />
+          <Tab label="Tab Three" value={2} />
+        </Tabs>
+        <SwipeableViews
+          index={this.state.slideIndex}
+          onChangeIndex={this.handleChange}
+        >
+          <div>
+            <h2 style={styles.headline}>Tabs with slide effect</h2>
+            Swipe to see the next slide.<br />
           </div>
-        </div>
+          <div style={styles.slide}>
+            slide n°2
+          </div>
+          <div style={styles.slide}>
+            slide n°3
+          </div>
+        </SwipeableViews>
+      </div>
     );
   }
+
 }
 
-export default Nav;
+export default SwipeViews;
