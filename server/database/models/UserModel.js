@@ -46,6 +46,21 @@ let getUserToken = (username) => {
 			   })
 }
 
+let storeGAuth = (username, token) => {
+	return knex.raw(`update `users` set `gauth` = '${token}' where `username` = ${username}`)
+			   .then(res => {
+			   	console.log(res)
+			   })
+}
+
+let storeToken = (username) => {
+	return knex.raw(`update `users` set `gauth` = '${token}' where `username` = ${username}`)
+			   .then(res => {
+			   	console.log("NEKOT:",res)
+			   })
+}
+
+
 let getUserID = (username) => {
 	return knex.raw(`select id from users where username = '${username}' and email = '${email}'`)
 			   .then(id => {

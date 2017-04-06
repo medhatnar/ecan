@@ -6,16 +6,19 @@ import CurrentEvent from '../containers/currentEvent.jsx';
 import RecentResponses from '../containers/recentResponses.jsx'
 import Inbox from '../containers/inbox.jsx'
 import InboxBody from '../containers/inboxbody.jsx'
+
 class App extends Component {
   render() {
     return (
+    	<div>
       <div>
-     	<AppBar />
-     	<Inbox />
-     	<InboxBody />
+     	<AppBar />	
+      </div>
+      <InboxBody />
       </div>
     );
   }
 }
 
 export default App;
+
