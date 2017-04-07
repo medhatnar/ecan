@@ -1,6 +1,6 @@
 var fs = require('fs');
 var googleAuth = require('google-auth-library');
-
+var GetToken = require('../database/models/UserModel.js')
 function getOAuth2Client(cb) {
     // Load client secrets
     fs.readFile('client_secret.json', function(err, data) {
@@ -15,16 +15,14 @@ function getOAuth2Client(cb) {
       var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
       // Load credentials
-      fs.readFile('gmail-credentials.json', function(err, token) {
-        if (err) {
-          return cb(err);
-        } else {
+    
+        
+          var token =  GetToken.getGAuth(username);
           oauth2Client.credentials = JSON.parse(token);
 
-
           return cb(null, oauth2Client);
-        }
-      });
+        
+      
     });
   }
 
@@ -57,6 +55,19 @@ function getOAuth2Client(cb) {
       }
     }, cb);
   }
+
+  function sendMessage(userId, email, callback) {
+  // Using the js-base64 library for encoding:
+  // https://www.npmjs.com/package/js-base64
+  var base64EncodedEmail = Base64.encodeURI(email);
+  var request = gapi.client.gmail.users.messages.send({
+    'userId': userId,
+    'resource': {
+      'raw': base64EncodedEmail
+    }
+  });
+  request.execute(callback);
+}
 
   getOAuth2Client(function(err, oauth2Client) {
     if (err) {

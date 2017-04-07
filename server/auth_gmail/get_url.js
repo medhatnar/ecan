@@ -3,7 +3,6 @@ var fs = require('fs');
 
   var scopes = require('./scopes');
 
-
   function getAuthorizationUrl(cb) {
     // Load client secrets
     fs.readFile('client_secret.json', function(err, data) {
@@ -24,7 +23,8 @@ var fs = require('fs');
         access_type: 'offline',
         scope: scopes
       });
-      console.log("BEGIN AUTH",authUrl)
+      console.log("THIS IS THE AUTHURL: ",authUrl);
+      res.redirect(authUrl);
     });
   }
 
@@ -35,3 +35,7 @@ var fs = require('fs');
       console.log('Authorization url is:\n', url);
     }
   });
+
+modules.exports = () => {
+  getAuthorizationUrl
+}

@@ -2,6 +2,8 @@ var fs = require('fs');
 var googleAuth = require('google-auth-library');
 var GToken = require('../database/models/UserModel.js')
 
+modules.exports = () => {
+
   function getAuthorizationToken(code, cb) {
     // Load client secrets
     fs.readFile('client_secret.json', function(err, data) {
@@ -21,7 +23,8 @@ var GToken = require('../database/models/UserModel.js')
         }
      
 
-        GToken.storeGAuth(JSON.stringify(token))
+        GToken.storeGAuth(JSON.stringify(token)) //store token in db
+
         return cb(null,token)
       });
     });
@@ -32,5 +35,7 @@ var GToken = require('../database/models/UserModel.js')
     process.exit(1);
   }
   var token = process.argv[2];
+  
+}
 
 
