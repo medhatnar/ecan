@@ -20,22 +20,21 @@ app.use(bodyParser.urlencoded({
   extended:true
 }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../client')));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
 app.use(flash());
 
+app.use(express.static(path.join(__dirname, '../client')));
 
-// const checkToken = (req,res,next) => {
+app.get('/', (req,res) => {
 
-// 	Auth.isSignedIn(req,res,next)
+	console.log("root reached")
 
-// 	next()
-// }
+})
 
 // app.use(checkToken);
 
-app.use('/',authRouter);
+app.use('/auth',authRouter);
 app.use('/api',router);
 
 const port = process.env.PORT || 3006;

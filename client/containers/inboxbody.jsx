@@ -3,11 +3,14 @@ import { Component } from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
-import MailRow from './mailRow.jsx';
 
 class InboxBody extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    
   }
 
   render() {
@@ -19,11 +22,11 @@ class InboxBody extends Component {
           <aside className="sm-side">
             <div className="user-head">
               <a className="inbox-avatar" href="javascript:;">
-                <img width={64} hieght={60} src="http://bootsnipp.com/img/avatars/ebeb306fd7ec11ab68cbcaa34282158bd80361a7.jpg" />
+                <img width={64} hieght={60} src="../assets/logo.png" />
               </a>
               <div className="user-name">
-                <h5><a href="#">Alireza Zare</a></h5>
-                <span><a href="#">Info.Ali.Pci@Gmail.com</a></span>
+                <h5><a href="#">Narmin Shahin</a></h5>
+                <span><a href="#">narmin.shahin@hackreactor.com</a></span>
               </div>
               <a className="mail-dropdown pull-right" href="javascript:;">
                 <i className="fa fa-chevron-down" />
@@ -121,7 +124,7 @@ class InboxBody extends Component {
           </aside>
           <aside className="lg-side">
             <div className="inbox-head">
-              <h3>Inbox</h3>
+              <h3>Hack Reactor Outreach</h3>
               <form action="#" className="pull-right position">
                 <div className="input-append">
                   <input type="text" className="sr-input" placeholder="Search Mail" />

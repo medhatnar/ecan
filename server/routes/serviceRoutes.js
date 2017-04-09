@@ -8,4 +8,6 @@ routerAPI.get('/api/getUserInfo',(req,res) => {
 	// AIzaSyBA9yzhZ88Bpv3Epwyj9Rg1ND9SWTnrSj8
 });
 
+routerAPI.get('')
+
 module.exports = routerAPI;
