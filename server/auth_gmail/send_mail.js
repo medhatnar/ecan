@@ -1,4 +1,5 @@
 var fs = require('fs');
+var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var GetToken = require('../database/models/UserModel.js')
 function getOAuth2Client(cb) {
@@ -17,24 +18,28 @@ function getOAuth2Client(cb) {
       // Load credentials
     
         
-          var token =  GetToken.getGAuth(username);
+       fs.readFile('gmail-credentials.json', function(err, token) {
+        if (err) {
+          return cb(err);
+        } else {
           oauth2Client.credentials = JSON.parse(token);
-
+          console.log("oauth2Client",oauth2Client)
           return cb(null, oauth2Client);
-        
-      
+        }
+      });
     });
   }
 
 
 
   function sendSampleMail(auth, cb) {
+    // console.log("AUTH::",auth,"CALLBACK:  ", cb)
     var gmailClass = google.gmail('v1');
 
     var email_lines = [];
 
-    email_lines.push('From: "test" <pcarion@gmail.com>');
-    email_lines.push('To: pcarion@gmail.com');
+    email_lines.push('From: "test" <narmin.shahin@hackreactor.com>');
+    email_lines.push('To: elau89@gmail.com');
     email_lines.push('Content-type: text/html;charset=iso-8859-1');
     email_lines.push('MIME-Version: 1.0');
     email_lines.push('Subject: this would be the subject');

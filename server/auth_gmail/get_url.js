@@ -1,21 +1,15 @@
 var fs = require('fs');
-  var googleAuth = require('google-auth-library');
+var googleAuth = require('google-auth-library');
+var path = require('path')
 
   var scopes = require('./scopes');
 
   function getAuthorizationUrl(cb) {
-    // Load client secrets
-    fs.readFile('client_secret.json', function(err, data) {
-      if (err) {
-        return cb(err);
-      }
+      
+      var clientSecret = "aC1JckCPCKceQQM44uYK5hJJ";
 
-      var credentials = JSON.parse(data);
-      console.log("CREDS: ",credentials)
-      var clientSecret = credentials.web.client_secret;
-
-      var clientId = credentials.web.client_id;
-      var redirectUrl = credentials.web.redirect_uris[0];
+      var clientId = "793576664582-ijlkcg6tegha3hc4mbva1ujchr6khchd.apps.googleusercontent.com";
+      var redirectUrl = "http://localhost:3006/auth/callback/gauth"
       var auth = new googleAuth();
       var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
@@ -23,19 +17,12 @@ var fs = require('fs');
         access_type: 'offline',
         scope: scopes
       });
+      
       console.log("THIS IS THE AUTHURL: ",authUrl);
-      res.redirect(authUrl);
-    });
+       return authUrl;
   }
 
-  getAuthorizationUrl(function(err, url) {
-    if (err) {
-      console.log('err:', err);
-    } else {
-      console.log('Authorization url is:\n', url);
-    }
-  });
 
-modules.exports = () => {
+module.exports = {
   getAuthorizationUrl
 }

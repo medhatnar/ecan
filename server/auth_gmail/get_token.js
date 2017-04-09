@@ -2,7 +2,6 @@ var fs = require('fs');
 var googleAuth = require('google-auth-library');
 var GToken = require('../database/models/UserModel.js')
 
-modules.exports = () => {
 
   function getAuthorizationToken(code, cb) {
     // Load client secrets
@@ -17,15 +16,14 @@ modules.exports = () => {
       var auth = new googleAuth();
       var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
-      oauth2Client.getToken(code, function(err, token) {
+       oauth2Client.getToken(code, function(err, token) {
         if (err) {
           return cb(err);
         }
-     
+        var file = 'gmail-credentials.json';
 
-        GToken.storeGAuth(JSON.stringify(token)) //store token in db
-
-        return cb(null,token)
+        fs.writeFile(file, JSON.stringify(token));
+        return cb(null, file);
       });
     });
   }
@@ -36,6 +34,10 @@ modules.exports = () => {
   }
   var token = process.argv[2];
   
-}
-
-
+  getAuthorizationToken(token, function(err, file) {
+    if (err) {
+      console.log('err:', err);
+    } else {
+      console.log('authorization token is in:\n', file);
+    }
+  });
