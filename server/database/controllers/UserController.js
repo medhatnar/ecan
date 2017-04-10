@@ -7,6 +7,7 @@ let newUserSignup = (req,res) => {
 }
 
 let userLogin = (req,res) => {
+
 	let username = req.body.username;
 	let password = req.body.password;
 

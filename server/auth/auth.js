@@ -3,19 +3,13 @@ const jwt = require('jsonwebtoken');
 const User = require('../database/models/UserModel.js');
 const bcrypt = require('bcrypt');
 
-let isSignedIn = (req,res,next) => {
-	
-	console.log("MADE IT: ",req.headers)
-
-}
-
 let signin = (username,password,res) => {
 	User.getUserByUsername(username)
 	 .then(user => {
 		
 	 	if(!user) {
 
-	 		 res.json({ success: false, message: 'Authentication failed. User not found.' });
+	 		 res.json({ success: false, message: `Authentication failed. User ${username} not found.`});
 
 	 	} else {
 	 		
@@ -25,11 +19,13 @@ let signin = (username,password,res) => {
 	 			let payload = {id:user.id}
 	 			let token = jwt.sign(payload, process.env.secret, {expiresIn : "1d"});	
 
+	 			User.storeToken(username,token)
+
 				res.json({ success: true, message: 'Ok!', token}); 
 
 				} else {
 
-					res.status(401).json({message:"Invalid username or password."}); 
+					res.json({message:"Invalid username or password."}); 
 				}
 	 	});					
 	}
@@ -69,6 +65,5 @@ User.checkIfUserExists(username)
 
 module.exports = {
 	signin,
-	signup,
-	isSignedIn
+	signup
 }

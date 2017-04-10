@@ -34,7 +34,7 @@ app.get('/', (req,res) => {
 
 // app.use(checkToken);
 
-app.use('/auth',authRouter);
+app.use('/',authRouter);
 app.use('/api',router);
 
 const port = process.env.PORT || 3006;

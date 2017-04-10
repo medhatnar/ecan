@@ -24,7 +24,7 @@ let getUserByUsername = (username) => {
 	console.log(username)
 	return knex.raw(`select * from users where username = '${username}'`)
 	 .then(result => {
-
+	 
 	 	if(!result[0].length) return;
 
 	 	let name = result[0][0]['username'];
@@ -62,7 +62,7 @@ let storeGAuth = (username, token) => {
 }
 
 let storeToken = (username,token) => {
-	return knex.raw(`update users set token = '${token}' where username = ${username}`)
+	return knex.raw(`update users set token = '${token}' where username = '${username}'`)
 			   .then(res => {
 			   	console.log("NEKOT:",res)
 			   })
