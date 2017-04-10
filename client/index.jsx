@@ -7,8 +7,6 @@ import { Provider } from 'react-redux'
 
 import createHistory from 'history/createBrowserHistory';
 
-
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 

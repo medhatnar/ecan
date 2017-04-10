@@ -10,7 +10,25 @@ class InboxBody extends Component {
   }
 
   componentWillMount() {
-    
+    if(!localStorage.token) {
+      console.log("no token no jokin")
+      //redirect to login
+    } else {
+      console.log("jwt token present")
+      // with token find user with this current token and see if they have a valid gmail token
+      // if they do not have a valid gmail token, run get_url.js and redirect to AuthURL.(begin Auth process)
+      // if they do have a valid gmail token then load up their inbox on to the page.
+    }
+    //this container should map to props and dispatch props.
+    // props to create: 
+    // User Info: Profile pic, name, email handle.
+      //inbox 
+      // ifRead, (If unread is present also load number next to inbox of unread)
+      // subject 
+      // title, 
+      // sender, 
+      // time of receiving email,
+      // whether attachment is present
   }
 
   render() {
