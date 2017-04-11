@@ -1,43 +1,29 @@
+require('dotenv').config();
 var fs = require('fs');
 var googleAuth = require('google-auth-library');
-var GToken = require('../database/models/UserModel.js')
+var GToken = require('../database/models/UserModel.js');
 
 
   function getAuthorizationToken(code, cb) {
-    // Load client secrets
-    fs.readFile('client_secret.json', function(err, data) {
-      if (err) {
-        return cb(err);
-      }
-      var credentials = JSON.parse(data);
-      var clientSecret = credentials.web.client_secret;
-      var clientId = credentials.web.client_id;
-      var redirectUrl = credentials.web.redirect_uris[0];
+    
+      var clientSecret = process.env.secreto
+      var clientId = process.env.id
+      var redirectUrl = process.env.redirect
       var auth = new googleAuth();
       var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
        oauth2Client.getToken(code, function(err, token) {
-        if (err) {
-          return cb(err);
-        }
-        var file = 'gmail-credentials.json';
+        if(err) console.log(err)
 
-        fs.writeFile(file, JSON.stringify(token));
-        return cb(null, file);
+
+        var toke = JSON.stringify(token)
+
+          
+        return toke;
       });
-    });
+   
   }
 
-  if (process.argv.length != 3) {
-    console.log('usage: node get_token token');
-    process.exit(1);
-  }
-  var token = process.argv[2];
-  
-  getAuthorizationToken(token, function(err, file) {
-    if (err) {
-      console.log('err:', err);
-    } else {
-      console.log('authorization token is in:\n', file);
-    }
-  });
+module.exports = {
+  getAuthorizationToken
+}

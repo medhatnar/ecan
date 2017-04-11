@@ -1,11 +1,13 @@
 const knex = require('../connection.js');
 
-let storeUser = (username, password, email,group) => {
+let storeUser = (username, password, email, group, token, gauth) => {
 		return knex('users').insert({
 		username:username.trim(),
 		password:password.trim(),
 		email:email.trim(),
-		groups_id:group
+		groups_id:group,
+		token: token,
+		gauth: gauth
 		}).then(result => {
 
 		return result[0];
@@ -54,7 +56,7 @@ let getGAuth = (username) => {
 			   })
 }
 
-let storeGAuth = (username, token) => {
+let storeGAuth = (jwt, token) => {
 	return knex.raw(`update users set gauth = '${token}' where username = ${username}`)
 			   .then(res => {
 			   	console.log(res)

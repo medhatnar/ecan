@@ -1,20 +1,31 @@
 import React from 'react';
 import { Component } from 'react';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import Divider from 'material-ui/Divider';
-import Paper from 'material-ui/Paper';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getMail } from '../actions/getMail.js';
+import { getUser } from '../actions/getUser.js';
+import { getAuth } from '../actions/getAuth.js';
 
 class InboxBody extends Component {
   constructor(props) {
     super(props);
+   
+    this.getAuth = this.getAuth.bind(this);
+  }
+
+  getAuth() {
+
+  this.props.getAuth();
+
   }
 
   componentWillMount() {
-    if(!localStorage.token) {
-      console.log("no token no jokin")
+      this.getAuth(localStorage.username);
+
+    if(localStorage.token) {
       //redirect to login
     } else {
-      console.log("jwt token present")
+      console.log("jwt token present",localStorage)
       // with token find user with this current token and see if they have a valid gmail token
       // if they do not have a valid gmail token, run get_url.js and redirect to AuthURL.(begin Auth process)
       // if they do have a valid gmail token then load up their inbox on to the page.
@@ -427,7 +438,20 @@ class InboxBody extends Component {
   }
 }
 
-export default InboxBody;
+function mapDispatchToProps(dispatch) {
+ 
+  return bindActionCreators({ getUser, getAuth, getMail}, dispatch);
+}
+
+// function mapStateToProps(state) {
+//   console.log(state.newStr)
+//   return {
+//     newStr: state.newStr,
+//     result: state.result
+//   };
+// }
+
+export default connect(null,mapDispatchToProps)(InboxBody);
 
       
                     

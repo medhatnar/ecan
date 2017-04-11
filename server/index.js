@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 app.get('/', (req,res) => {
 
-	console.log("root reached")
+	res.send(express.static(path.join(__dirname, '../client')))
 
 })
 

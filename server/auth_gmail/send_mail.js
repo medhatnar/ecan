@@ -1,34 +1,32 @@
+require('dotenv').config();
 var fs = require('fs');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
 var GetToken = require('../database/models/UserModel.js')
+
 function getOAuth2Client(cb) {
     // Load client secrets
-    fs.readFile('client_secret.json', function(err, data) {
-      if (err) {
-        return cb(err);
-      }
-      var credentials = JSON.parse(data);
-      var clientSecret = credentials.web.client_secret;
-      var clientId = credentials.web.client_id;
-      var redirectUrl = credentials.web.redirect_uris[0];
+      var clientSecret = process.env.secreto
+      var clientId = process.env.id
+      var redirectUrl = process.env.redirect
       var auth = new googleAuth();
       var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
-      // Load credentials
-    
-        
-       fs.readFile('gmail-credentials.json', function(err, token) {
+  fs.readFile('gmail-credentials.json', function(err, token) {
+      if (err) {
+        return cb(err);
+      } else {
+      oauth2Client.credentials = JSON.parse(token);
+      sendSampleMail(oauth2Client, function(err, results) {
         if (err) {
-          return cb(err);
+          console.log('err:', err);
         } else {
-          oauth2Client.credentials = JSON.parse(token);
-          console.log("oauth2Client",oauth2Client)
-          return cb(null, oauth2Client);
+          console.log(results);
         }
       });
-    });
-  }
+    }
+  });
+}
 
 
 

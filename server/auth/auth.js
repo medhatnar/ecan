@@ -50,10 +50,11 @@ User.checkIfUserExists(username)
 	        	if(err) throw err;
 	        	let pass = hash;
 
-	        	User.storeUser(username, pass, email, 3)
+	        	User.storeUser(username, pass, email, 3, null, null)
 	        		.then(id => {
 	        		let payload = {id}
 	 				let token = jwt.sign(payload, process.env.secret, {expiresIn : "10d"});
+	 				User.storeToken(username,token)
 	 				res.json({username,token});
 	 			});
 			});

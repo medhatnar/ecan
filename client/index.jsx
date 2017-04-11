@@ -14,6 +14,8 @@ import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-ro
 
 import App from './components/app.jsx';
 import Inbox from './containers/inboxbody.jsx';
+import Login from './containers/login.jsx'
+import Signup from './containers/signup.jsx';
 import reducers from './reducers';
 
 injectTapEventPlugin();
@@ -40,7 +42,8 @@ ReactDOM.render(
     <MuiThemeProvider>
     <div>
     <Route exact path="/" component={App}/>
-    <Route path="/loginFail" />
+    <Route path="/signup" component={Signup}/>
+    <Route path="/login" component={Login}/>
     <Route path="/inbox" component={Inbox}/>
     </div>
       </MuiThemeProvider>
