@@ -4,13 +4,14 @@ const GroupsController = require('../database/controllers/GroupsController.js');
 const PermissionsController = require('../database/controllers/PermissionsController.js');
 const GetUrl = require('../auth_gmail/get_url.js');
 const GetToken = require('../auth_gmail/get_token.js');
-const StoreToken = require('../database/models/UserModel.js');
+const StoreToken = require('../database/models/UserModel.js'); 
 
 router.post('/auth/login', UserController.userLogin);
 
 router.post('/auth/signup', UserController.newUserSignup);
 
 router.get('/auth/callback/gauth',(req,res) => {
+
 	var code = req._parsedOriginalUrl.query.slice(5);
 	var token = GetToken.getAuthorizationToken(code);
 	console.log("HEY", token)

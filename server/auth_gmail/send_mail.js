@@ -72,16 +72,3 @@ function getOAuth2Client(cb) {
   request.execute(callback);
 }
 
-  getOAuth2Client(function(err, oauth2Client) {
-    if (err) {
-      console.log('err:', err);
-    } else {
-      sendSampleMail(oauth2Client, function(err, results) {
-        if (err) {
-          console.log('err:', err);
-        } else {
-          console.log(results);
-        }
-      });
-    }
-  });
