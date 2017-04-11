@@ -1,20 +1,16 @@
 require('dotenv').config(); 
-const _ = require("lodash");
-const jwt = require('jsonwebtoken');
-const passport = require('passport'); 
-const passportJWT = require('passport-jwt'); 
-const ExtractJwt = passportJWT.ExtractJwt;
-const JwtStrategy = passportJWT.Strategy;
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const request = require('request');
 const morgan = require('morgan');
+const passport = require('passport');
 const authRouter = require('./routes/authRoutes.js');
 const router = require('./routes/serviceRoutes.js');
-const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const connection = require('./database/connection.js');
+const Auth = require('./auth/auth.js');
+const flash = require('connect-flash');
 const app = express();
 
 
@@ -24,19 +20,28 @@ app.use(bodyParser.urlencoded({
   extended:true
 }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '/../client')));
 app.use(cookieParser());
 app.set('view engine', 'ejs');
-app.use(authRouter);
+app.use(flash());
 
-app.get('/', function(req, res) {  
-  res.send('Relax. We will put the home page here later.');
-});
+app.use(express.static(path.join(__dirname, '../client')));
 
+app.get('/', (req,res) => {
 
-const port = process.env.PORT || 3306;
+	res.send(express.static(path.join(__dirname, '../client')))
+
+})
+
+// app.use(checkToken);
+
+app.use('/',authRouter);
+app.use('/api',router);
+
+const port = process.env.PORT || 3006;
 app.listen(port,(err) => {
   console.log("Listening on port " + port);
 });
+
+
 module.exports = app;
 
