@@ -42,8 +42,8 @@ ReactDOM.render(
     <MuiThemeProvider>
     <div>
     <Route exact path="/" component={App}/>
-    <Route path="/signup" component={Signup}/>
-    <Route path="/login" component={Login}/>
+    <Route path="/signupform" component={Signup}/>
+    <Route path="/loginform" component={Login}/>
     <Route path="/inbox" component={Inbox}/>
     </div>
       </MuiThemeProvider>
