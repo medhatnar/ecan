@@ -17,63 +17,77 @@ function getOAuth2Client(cb) {
 
       // Load credentials
       fs.readFile('gmail-credentials.json', function(err, token) {
+        console.log("TOKE NE TOKEN ++++:", token)
         if (err) {
           return cb(err);
         } else {
           oauth2Client.credentials = JSON.parse(token);
+          console.log("HELLLLOOOOOOOO O AUTH 2 CLIENT:", oauth2Client.credentials)
           return cb(null, oauth2Client);
         }
       });
     });
   }
 
-function listMessages(auth,userId, callback) {
 
-var gmailClass = google.gmail('v1');
-var request = gmailClass.users.messages.list({
-    'auth': auth,
-    'userId': 'me',
-    'labelIds': 'INBOX',
-    'maxResults': 25,
-    'key':'AIzaSyBA9yzhZ88Bpv3Epwyj9Rg1ND9SWTnrSj8'
+function getMessage(auth, id) {
+  
+  var gmail = google.gmail('v1');
+  gmail.users.messages.get({
+    id: id,
+    format: "full",
+    auth: auth,
+    userId: 'me',
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    var message = response;
+    console.log("MESSAGE: ", message)
   });
-console.log("REAQUESTA: ",request)
-  var getPageOfMessages = function(request, result) {
+}
+
+function listMessages(auth, query) {
+  var messages = [];
+
+  var gmail = google.gmail('v1');
+  gmail.users.messages.list({
+    auth: auth,
+    userId: 'me',
+    maxResults: 25,
+    labelIds: ['INBOX', 'CATEGORY_PERSONAL']
+  }, function(err, response) {
+    if (err) {
+      console.log('The API returned an error: ' + err);
+      return;
+    }
+    var msgData = response.messages;
+    var nextPageToken = response
+
+    console.log(nextPageToken)
+
+    // for each id i want to get a message
+    // i want each message to give me back the 'from', 'to', 'subject', 'body', 'snippet', 'labels', 'content type', 
+    getOAuth2Client(function(err, oauth2Client) {
+    if (err) {
+      console.log('err:', err);
+    } else {
+    msgData.map((data) => {
+
+      getMessage(oauth2Client,data.id)
     
-    request.execute(function(resp) {
-
-      result = result.concat(resp.messages);
-      var nextPageToken = resp.nextPageToken;
-      if (nextPageToken) {
-        request = gmailClass.users.messages.list({
-          'auth': auth,
-          'userId': userId,
-          'maxResults': 25,
-          'pageToken': nextPageToken,
-          'key':'AIzaSyBA9yzhZ88Bpv3Epwyj9Rg1ND9SWTnrSj8'
-        });
-        getPageOfMessages(request, result);
-      } else {
-        callback(result);
-      }
-
+         });  
+       }
     });
-  };
-
-  var initialRequest = gmailClass.users.messages.list({
-    'auth':auth,
-    'userId': userId,
-    'maxResults': 25,
-    'key':'AIzaSyBA9yzhZ88Bpv3Epwyj9Rg1ND9SWTnrSj8'
   });
-  getPageOfMessages(initialRequest, []);
 }
 
   getOAuth2Client(function(err, oauth2Client) {
     if (err) {
       console.log('err:', err);
     } else {
-      listMessages(oauth2Client,'narminshahin@gmail.com', function(err, results) {
+      listMessages(oauth2Client, function(err, results) {
         if (err) {
           console.log('err:', err);
         } else {

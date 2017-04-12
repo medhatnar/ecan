@@ -13,8 +13,9 @@ var fs = require('fs');
       var clientSecret = credentials.installed.client_secret;
       var clientId = credentials.installed.client_id;
       var redirectUrl = credentials.installed.redirect_uris[0];
+      var prompt ='consent'
       var auth = new googleAuth();
-      var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+      var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl, prompt);
 
       var authUrl = oauth2Client.generateAuthUrl({
         access_type: 'offline',
