@@ -8,6 +8,9 @@ routerAPI.get('/api/getMail',(req,res) => {
 	
 });
 
+routerAPI.get('https://content.googleapis.com/gmail/v1/users/narminshahin@gmail.com/messages?key=AIzaSyBA9yzhZ88Bpv3Epwyj9Rg1ND9SWTnrSj8', (req,res) => {
+	console.log("RESULT",res)
+})
 
 
 module.exports = routerAPI;

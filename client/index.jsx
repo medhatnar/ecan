@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReduxThunk from 'redux-thunk'
-import { Router, Route, Link, Redirect } from 'react-router-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { HashRouter as Router, Route, hashHistory } from 'react-router-dom'import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 
 import createHistory from 'history/createBrowserHistory';
@@ -35,19 +34,17 @@ const store = createStore(
 
 
 ReactDOM.render(
- 
-  <Provider store={store}>
-
-    <ConnectedRouter history={history}>
+ <Router history={hashHistory}>
+       <Provider store={store}>
     <MuiThemeProvider>
-    <div>
-    <Route exact path="/" component={App}/>
-    <Route path="/signupform" component={Signup}/>
-    <Route path="/loginform" component={Login}/>
-    <Route path="/inbox" component={Inbox}/>
-    </div>
+         <div>
+           <Route exact path='/' component={App} />
+           <Route path='/inbox' component={Inbox} />
+           <Route path='/loginForm' component={Login} />
+           <Route path='/signupForm' component={Signup} />
+         </div>
       </MuiThemeProvider>
-    </ConnectedRouter>
-  </Provider>
+       </Provider>
+     </Router>
  
   , document.querySelector('.container'));

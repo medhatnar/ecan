@@ -15,6 +15,8 @@ router.get('/auth/callback/gauth',(req,res) => {
 	var code = req._parsedOriginalUrl.query.slice(5);
 	var token = GetToken.getAuthorizationToken(code);
 	console.log("HEY", token)
+	//get all tokens and decode it to get username or id
+	// then query with that uesrname or id then store it
 })
 
 router.post('/auth/getUrl',(req,res) => {
