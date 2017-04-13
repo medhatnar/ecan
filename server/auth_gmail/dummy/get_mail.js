@@ -1,8 +1,10 @@
 var fs = require('fs');
 var base64 = require('base-64');
 var utf8 = require('utf8');
+var async = require('async');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
+
 
 function getOAuth2Client(cb) {
     // Load client secrets
@@ -30,74 +32,74 @@ function getOAuth2Client(cb) {
   }
 
 
-function getMessage(auth, id, cb) {
-  var gmail = google.gmail('v1');
-  gmail.users.messages.get({
-    id: id,
-    auth: auth,
-    userId: 'me',
-  }, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-    }
-      cb(null, response);
-  
-  });
-}
-
-
 function decodeFromBase64(input) {
   input = input.replace(/\s/g, '');
     return new Buffer(input , 'base64').toString();
 }
 
-function listMessages(auth, query, cb) {
-  var messageData;
+function myFilter(collection) {
+    var newArr = [];
+    console.log("COLLECTION", collection)
+    collection.forEach(function(val) {
+      var obj = {};
+      if(val.name === "From" ||
+         val.name === "Subject" || 
+         val.name === "Date"  ||
+         val.name === "To" ||
+         val.name === "Message-ID") { 
+          obj[val.name] = val.value
+        newArr.push(obj)
+      }
+    })
+    console.log("NEWWWWWWWWWWWWWWWWW: ", newArr)
+    return newArr
+};
+
+function listMessages(auth, cb) {
 
   var gmail = google.gmail('v1');
+
+  function getResult(array) {
+    async.map
+  }
+
   gmail.users.messages.list({
     auth: auth,
     format:'full',
     userId: 'me',
     maxResults: 25,
     labelIds: ['INBOX', 'CATEGORY_PERSONAL', 'IMPORTANT', 'STARRED']
-  }, function(err, response) {
+  }, 
+
+  function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
       return;
     }
     var msgData = response.messages;
-    // var nextPageToken = response
 
-    // console.log("nxt page",nextPageToken)
-      console.log(msgData[0].id)
+    async.map(msgData, function(msg, callback) {
 
-    // for each id i want to get a message
-    // i want each message to give me back the 'from', 'to', 'subject', 'body', 'snippet', 'labels', 'content type', 
-    getOAuth2Client(function(err, oauth2Client) {
-    if (err) {
-      console.log('err:', err);
-    } else {
-     return getMessage(oauth2Client, msgData[0].id, function(err, results) {
-          if (err) {
-            console.log('err:', err);
-          } else {
+              gmail.users.messages.get({
+              id: msg.id,
+              auth: auth,
+              userId: 'me'
+              }, function(err,res) {
+                    if(err) console.log(err);
+                    callback(err, res)
+                   })
+            },
+             function(err, result) {
+              if(err) console.log("THIS IS THE ERROR: ", err);
 
-              var emailBody = decodeFromBase64(results.payload.parts[0].body.data);
-              console.log(emailBody)
-            //console.log(results.payload.parts[0].partId)
-            
-            return results;
+              console.log("IS THIS EVERYTHING CONSISTENT WHAT: ", result)
 
-          }
-        }); 
-       }
-    });
-  });
-  console.log("DA DATA", messageData);
+                myFilter(result)
+                
+             })
+
+      })
 }
-
-
 
   getOAuth2Client(function(err, oauth2Client) {
     if (err) {
@@ -107,7 +109,8 @@ function listMessages(auth, query, cb) {
         if (err) {
           console.log('err:', err);
         } else {
-          // console.log("RESULT", results);
+          console.log("FINAL OOOOOOOOOOOOOOOOOOUT PUT", results)
+          return results;
         }
       });
     }
