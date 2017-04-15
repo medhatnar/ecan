@@ -1,6 +1,10 @@
 var fs = require('fs');
+var base64 = require('base-64');
+var utf8 = require('utf8');
+var async = require('async');
 var google = require('googleapis');
 var googleAuth = require('google-auth-library');
+
 
 function getOAuth2Client(cb) {
     // Load client secrets
@@ -17,70 +21,88 @@ function getOAuth2Client(cb) {
 
       // Load credentials
       fs.readFile('gmail-credentials.json', function(err, token) {
-        console.log("TOKE NE TOKEN ++++:", token)
         if (err) {
           return cb(err);
         } else {
           oauth2Client.credentials = JSON.parse(token);
-          console.log("HELLLLOOOOOOOO O AUTH 2 CLIENT:", oauth2Client.credentials)
           return cb(null, oauth2Client);
         }
       });
     });
   }
 
+var counter = 0;
 
-function getMessage(auth, id) {
-  
-  var gmail = google.gmail('v1');
-  gmail.users.messages.get({
-    id: id,
-    format: "full",
-    auth: auth,
-    userId: 'me',
-  }, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    var message = response;
-    console.log("MESSAGE: ", message)
-  });
+function decodeFromBase64(input) {
+  input = input.replace(/\s/g, '');
+    return new Buffer(input , 'base64').toString();
 }
 
-function listMessages(auth, query) {
-  var messages = [];
+function myFilter(collection) {
+    var newArr = [];
+    collection.forEach(function(val) {
+      console.log(counter++, val.name)
+      var obj = {};
+      if(val.name === "From" ||
+         val.name === "Subject" || 
+         val.name === "Date"  ||
+         val.name === "To" ||
+         val.name === "Message-ID") { 
+        console.log("MADE IT", val)
+          obj[val.name] = val.value
+          console.log("OBJECYYYYYYYYYYYYYYYYY: ",obj)
+        newArr.push(obj)
+      }
+    })
+    return newArr
+};
+
+function listMessages(auth, cb) {
 
   var gmail = google.gmail('v1');
+
+  function getResult(array) {
+    async.map
+  }
+
   gmail.users.messages.list({
     auth: auth,
+    format:'full',
     userId: 'me',
     maxResults: 25,
     labelIds: ['INBOX', 'CATEGORY_PERSONAL']
-  }, function(err, response) {
+  }, 
+
+  function(err, response) {
     if (err) {
       console.log('The API returned an error: ' + err);
       return;
     }
     var msgData = response.messages;
-    var nextPageToken = response
 
-    console.log(nextPageToken)
+    async.map(msgData, function(msg, callback) {
 
-    // for each id i want to get a message
-    // i want each message to give me back the 'from', 'to', 'subject', 'body', 'snippet', 'labels', 'content type', 
-    getOAuth2Client(function(err, oauth2Client) {
-    if (err) {
-      console.log('err:', err);
-    } else {
-    msgData.map((data) => {
+              gmail.users.messages.get({
+              id: msg.id,
+              auth: auth,
+              userId: 'me'
+              }, function(err,res) {
+                    if(err) console.log(err);
+                    callback(err, res)
+                   })
+            },
+             function(err, result) {
+              if(err) console.log("THIS IS THE ERROR: ", err);
 
-      getMessage(oauth2Client,data.id)
-    
-         });  
-       }
-    });
-  });
+              var filteredData = result.map(function(msg) {
+                 return myFilter(msg.payload.headers)
+               })
+
+                console.log("DONE", filteredData)
+                
+             })
+
+      })
 }
 
   getOAuth2Client(function(err, oauth2Client) {
@@ -91,7 +113,8 @@ function listMessages(auth, query) {
         if (err) {
           console.log('err:', err);
         } else {
-          console.log(results);
+          console.log("FINAL OOOOOOOOOOOOOOOOOOUT PUT", results)
+          return results;
         }
       });
     }

@@ -12,9 +12,11 @@ router.post('/auth/signup', UserController.newUserSignup);
 
 router.get('/auth/callback/gauth',(req,res) => {
 
-	var code = req._parsedOriginalUrl.query.slice(5);
-	var token = GetToken.getAuthorizationToken(code);
-	console.log("HEY", token)
+	var code = req._parsedUrl.query.slice(5);
+
+	var token = GetToken.getAuthorizationToken(code,res);
+	
+
 })
 
 router.post('/auth/getUrl',(req,res) => {
