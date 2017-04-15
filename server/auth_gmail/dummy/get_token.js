@@ -20,8 +20,7 @@ var fs = require('fs');
         }
         var file = 'gmail-credentials.json';
 
-        fs.writeFile(file, JSON.stringify(token));
-        return cb(null, file);
+        console.log("TOKEN", JSON.stringify(token));
       });
     });
   }

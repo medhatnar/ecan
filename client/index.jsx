@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReduxThunk from 'redux-thunk'
-import { HashRouter as Router, Route, hashHistory } from 'react-router-dom'import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { combineReducers, applyMiddleware, createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 import createHistory from 'history/createBrowserHistory';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
@@ -34,7 +36,7 @@ const store = createStore(
 
 
 ReactDOM.render(
- <Router history={hashHistory}>
+ <Router>
        <Provider store={store}>
     <MuiThemeProvider>
          <div>

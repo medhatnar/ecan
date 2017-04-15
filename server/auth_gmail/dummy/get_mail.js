@@ -31,6 +31,7 @@ function getOAuth2Client(cb) {
     });
   }
 
+var counter = 0;
 
 function decodeFromBase64(input) {
   input = input.replace(/\s/g, '');
@@ -39,19 +40,20 @@ function decodeFromBase64(input) {
 
 function myFilter(collection) {
     var newArr = [];
-    console.log("COLLECTION", collection)
     collection.forEach(function(val) {
+      console.log(counter++, val.name)
       var obj = {};
       if(val.name === "From" ||
          val.name === "Subject" || 
          val.name === "Date"  ||
          val.name === "To" ||
          val.name === "Message-ID") { 
+        console.log("MADE IT", val)
           obj[val.name] = val.value
+          console.log("OBJECYYYYYYYYYYYYYYYYY: ",obj)
         newArr.push(obj)
       }
     })
-    console.log("NEWWWWWWWWWWWWWWWWW: ", newArr)
     return newArr
 };
 
@@ -68,7 +70,7 @@ function listMessages(auth, cb) {
     format:'full',
     userId: 'me',
     maxResults: 25,
-    labelIds: ['INBOX', 'CATEGORY_PERSONAL', 'IMPORTANT', 'STARRED']
+    labelIds: ['INBOX', 'CATEGORY_PERSONAL']
   }, 
 
   function(err, response) {
@@ -92,9 +94,11 @@ function listMessages(auth, cb) {
              function(err, result) {
               if(err) console.log("THIS IS THE ERROR: ", err);
 
-              console.log("IS THIS EVERYTHING CONSISTENT WHAT: ", result)
+              var filteredData = result.map(function(msg) {
+                 return myFilter(msg.payload.headers)
+               })
 
-                myFilter(result)
+                console.log("DONE", filteredData)
                 
              })
 

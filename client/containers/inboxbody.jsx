@@ -20,9 +20,9 @@ class InboxBody extends Component {
   }
 
   componentWillMount() {
-      this.getAuth(localStorage.username);
 
     if(localStorage.token) {
+      this.getAuth(localStorage.username);
       //redirect to login
     } else {
       console.log("jwt token present",localStorage)
