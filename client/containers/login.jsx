@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'; 
 import { getUser } from '../actions/getUser.js';
+import { log } from '../actions/log.js';
 import { Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -26,18 +27,17 @@ class Login extends Component {
 
 
 componentWillMount() {
+
   if(localStorage.token) {
     
     this.setState({isAuth: true})
     console.log(this.state.isAuth)
-    //compare to backend token
-    //create an action that takes token from LS, sends to backend to compare, verifies, sends back bool.
-    //if bool is true then redirect to inbox, if bool is false, do nothing.
+
   }
 }
 
 componentDidMount() {
-  this.setState({isAuth: this.props.auth})
+  this.setState({isAuth: this.props.logging})
 }
 
 onUserChange(event) {
@@ -67,11 +67,14 @@ handleSubmit (event) {
     let message = res.data.message;
 
     if(!token) {
-      this.setState({ message });
+      this.setState({message: message})
       console.log(this.state.message);
 
     } else {
-    localStorage.clear();
+    
+    this.setState({isAuth: true})
+    console.log("WE IN???", this.state.isAuth)
+    location.reload();
             console.log("Emptied:",localStorage);
             localStorage.setItem('token', token);
             localStorage.setItem('username', this.state.username);
@@ -85,6 +88,7 @@ handleSubmit (event) {
   render() {
     
     if (this.state.isAuth) {
+      console.log("TRUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUE")
       return (
         <Redirect to={'/inbox'}/>
       )
@@ -128,9 +132,15 @@ handleSubmit (event) {
 
 function mapDispatchToProps(dispatch) {
  
-  return bindActionCreators({ getUser }, dispatch);
+  return bindActionCreators({ getUser, log }, dispatch);
+}
+
+function mapStateToProps(state) {
+  console.log("PRRRROPS", state.logging)
+  return {
+    logging: state.logging
+  };
 }
 
 
-
-export default connect(null,mapDispatchToProps)(Login);
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

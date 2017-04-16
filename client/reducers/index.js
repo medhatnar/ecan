@@ -4,7 +4,8 @@ import Auth from './auth.js';
 
 const rootReducer = combineReducers({
 
-	mail: Mail
+	mail: Mail,
+	logging: Auth
 
 });
 
