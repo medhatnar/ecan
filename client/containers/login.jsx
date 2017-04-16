@@ -1,8 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import InboxBody from '../containers/inboxbody.jsx';
+import { bindActionCreators } from 'redux'; 
+import { getUser } from '../actions/getUser.js';
+import { log } from '../actions/log.js';
 import { Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -21,17 +22,22 @@ class Login extends Component {
   this.handleSubmit = this.handleSubmit.bind(this);
   this.onUserChange = this.onUserChange.bind(this);
   this.onPasswordChange = this.onPasswordChange.bind(this);
+  
   }
 
 
 componentWillMount() {
-  if(localStorage.token) {
 
-    // this.setState({isAuth: true})
-    //compare to backend token
-    //create an action that takes token from LS, sends to backend to compare, verifies, sends back bool.
-    //if bool is true then redirect to inbox, if bool is false, do nothing.
+  if(localStorage.token) {
+    
+    this.setState({isAuth: true})
+    console.log(this.state.isAuth)
+
   }
+}
+
+componentDidMount() {
+  this.setState({isAuth: this.props.logging})
 }
 
 onUserChange(event) {
@@ -61,11 +67,14 @@ handleSubmit (event) {
     let message = res.data.message;
 
     if(!token) {
-      this.setState({ message });
+      this.setState({message: message})
       console.log(this.state.message);
 
     } else {
-    localStorage.clear();
+    
+    this.setState({isAuth: true})
+    console.log("WE IN???", this.state.isAuth)
+    location.reload();
             console.log("Emptied:",localStorage);
             localStorage.setItem('token', token);
             localStorage.setItem('username', this.state.username);
@@ -79,6 +88,7 @@ handleSubmit (event) {
   render() {
     
     if (this.state.isAuth) {
+      console.log("TRUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUE")
       return (
         <Redirect to={'/inbox'}/>
       )
@@ -120,5 +130,17 @@ handleSubmit (event) {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+ 
+  return bindActionCreators({ getUser, log }, dispatch);
+}
 
-export default Login;
+function mapStateToProps(state) {
+  console.log("PRRRROPS", state.logging)
+  return {
+    logging: state.logging
+  };
+}
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

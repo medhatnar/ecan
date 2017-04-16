@@ -15,12 +15,11 @@ router.get('/auth/callback/gauth',(req,res) => {
 	var code = req._parsedUrl.query.slice(5);
 
 	var token = GetToken.getAuthorizationToken(code,res);
-	
-
 })
 
+router.post('/auth/getUser', UserController.getUser);
+
 router.post('/auth/getUrl',(req,res) => {
-		console.log(req.body)
 
 	const authUrl = JSON.stringify(GetUrl.getAuthorizationUrl());
 

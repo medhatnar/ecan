@@ -2,47 +2,69 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { log } from '../actions/log.js';
+import { withRouter } from 'react-router';
 import { getMail } from '../actions/getMail.js';
 import { getUser } from '../actions/getUser.js';
 import { getAuth } from '../actions/getAuth.js';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import { Link } from 'react-router-dom';
 
 class InboxBody extends Component {
   constructor(props) {
     super(props);
-   
+
+    this.state = {
+      isAuth: true
+   }
     this.getAuth = this.getAuth.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   getAuth() {
-
+    console.log("get auth")
   this.props.getAuth();
 
   }
 
-  componentWillMount() {
+  handleLogout() {
+    console.log("LOGGING OUT LOGGING OUT")
+    localStorage.removeItem('token');
+    localStorage.removeItem('gauth');
+    console.log(localStorage)
+    this.props.log(false);
+    this.setState({isAuth: this.props.logging});
+    console.log("HERRRRRRRRRRRRRRRRRRO AUTH: ", this.state.isAuth)
+    location.reload();
+    console.log("reload")
+  }
 
-    if(localStorage.token) {
-      this.getAuth(localStorage.username);
-      //redirect to login
-    } else {
-      console.log("jwt token present",localStorage)
-      // with token find user with this current token and see if they have a valid gmail token
-      // if they do not have a valid gmail token, run get_url.js and redirect to AuthURL.(begin Auth process)
-      // if they do have a valid gmail token then load up their inbox on to the page.
+  componentWillMount() {
+    if(!localStorage.token) {
+      this.props.history.push('/')
+    } 
+
+     if(!localStorage.gauth) {
+      this.props.getUser(localStorage.username);
     }
-    //this container should map to props and dispatch props.
-    // props to create: 
-    // User Info: Profile pic, name, email handle.
-      //inbox 
-      // ifRead, (If unread is present also load number next to inbox of unread)
-      // subject 
-      // title, 
-      // sender, 
-      // time of receiving email,
-      // whether attachment is present
+
+  }
+
+  componentDidMount() {
+    if(localStorage.gauth === null) {
+      this.getAuth();
+    } 
   }
 
   render() {
+
+    if (!this.state.isAuth) {
+      return (
+        <Redirect to={'/'}/>
+      )
+    }
+
     return (
 
       <div className="container" id="mainContainer">
@@ -51,15 +73,19 @@ class InboxBody extends Component {
           <aside className="sm-side">
             <div className="user-head">
               <a className="inbox-avatar" href="javascript:;">
-                <img width={64} hieght={60} src="../assets/logo.png" />
+                <img width={64} height={60} src="../assets/logo.png" />
               </a>
               <div className="user-name">
                 <h5><a href="#">Narmin Shahin</a></h5>
                 <span><a href="#">narmin.shahin@hackreactor.com</a></span>
               </div>
-              <a className="mail-dropdown pull-right" href="javascript:;">
-                <i className="fa fa-chevron-down" />
-              </a>
+
+              
+       <DropDownMenu value={4}>
+          <MenuItem onTouchTap={this.handleLogout} primaryText="Logout"/>
+        </DropDownMenu>
+        <br />
+
             </div>
             <div className="inbox-body">
               <a href="#myModal" data-toggle="modal" title="Compose" className="btn btn-compose">
@@ -440,18 +466,17 @@ class InboxBody extends Component {
 
 function mapDispatchToProps(dispatch) {
  
-  return bindActionCreators({ getUser, getAuth, getMail}, dispatch);
+  return bindActionCreators({ getUser, getAuth, getMail, log}, dispatch);
 }
 
-// function mapStateToProps(state) {
-//   console.log(state.newStr)
-//   return {
-//     newStr: state.newStr,
-//     result: state.result
-//   };
-// }
+function mapStateToProps(state) {
+  console.log("PRRRROPS", state.logging)
+  return {
+    logging: state.logging
+  };
+}
 
-export default connect(null,mapDispatchToProps)(InboxBody);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(InboxBody));
 
       
                     

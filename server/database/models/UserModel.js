@@ -44,22 +44,23 @@ let checkUserPassword = (password) => {
 let getUserToken = (username) => {
 	return knex.raw(`select token from users where username = '${username}'`)
 			   .then(token => {
-			   	console.log("NEKOT:",token)
+			   		return token
 			   })
 }
 
-let getGAuth = (username) => {
+let getGAuth = (username, res) => {
 	return knex.raw(`select gauth from users where username = '${username}'`)
 			   .then(token => {
-			   	console.log("GAUTH: ",token);
-			   	return token;
+		
+			   	res.send(token[0][0].gauth);
+
 			   })
 }
 
-let storeGAuth = (jwt, token) => {
-	return knex.raw(`update users set gauth = '${token}' where username = ${username}`)
+let storeGAuth = (email, token) => {
+	return knex.raw(`update users set gauth = '${token}' where email = '${email}'`)
 			   .then(res => {
-			   	console.log(res)
+			   	console.log("G AUTH STORED YES!", res)
 			   })
 }
 
@@ -67,7 +68,7 @@ let storeToken = (username,token) => {
 	return knex.raw(`update users set token = '${token}' where username = '${username}'`)
 			   .then(res => {
 			   	console.log("NEKOT:",res)
-			   })
+		})
 }
 
 
