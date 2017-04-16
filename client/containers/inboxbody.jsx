@@ -47,6 +47,8 @@ class InboxBody extends Component {
 
      if(!localStorage.gauth) {
       this.props.getUser(localStorage.username);
+    } else {
+      this.props.getMail(localStorage.gauth);
     }
 
   }
