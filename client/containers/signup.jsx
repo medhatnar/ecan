@@ -14,7 +14,8 @@ class Signup extends Component {
       username: '',
       password: '',
       email:'',
-      message:''
+      message:'',
+      isAuth: false
     };
 
   this.handleSubmit = this.handleSubmit.bind(this);
@@ -67,18 +68,27 @@ handleSubmit (event) {
   	   		if(!token) {
   	   			this.setState({ message })
   	   		} else {
+            console.log("hello?")
   	   			localStorage.clear();
   	   			console.log("Emptied:",localStorage);
   	   			localStorage.setItem('token', token);
   	   			console.log(user)
   	   			localStorage.setItem('username', user);
   	   			console.log(localStorage);
+            this.setState({isAuth: true})
+            location.reload();
+            console.log("reload?")
   	   		}
   	   })
 }
 
   render() {
+     if (this.state.isAuth) {
 
+      return (
+        <Redirect to={'/inbox'}/>
+      )
+    }
 
     return (
 

@@ -25,7 +25,7 @@ let signin = (username,password,res) => {
 
 				} else {
 
-					res.json({message:"Invalid username or password."}); 
+					res.send({message:"Invalid username or password."}); 
 				}
 	 	});					
 	}
@@ -40,8 +40,8 @@ User.checkIfUserExists(username)
 	.then(count => {
 		
 		if(count) {
-
-		return res.json({message: "Username is taken."});
+			console.log("COUNTTTTTTTTTTTTTTTTTTTTTTT: ", count)
+		return res.send({message: "Username is taken."});
 
 		} else {
 
