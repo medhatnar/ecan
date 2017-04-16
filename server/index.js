@@ -6,7 +6,7 @@ const request = require('request');
 const morgan = require('morgan');
 const passport = require('passport');
 const authRouter = require('./routes/authRoutes.js');
-const router = require('./routes/serviceRoutes.js');
+const routerAPI = require('./routes/serviceRoutes.js');
 const cookieParser = require('cookie-parser');
 const connection = require('./database/connection.js');
 const Auth = require('./auth/auth.js');
@@ -32,10 +32,9 @@ app.get('/', (req,res) => {
 
 })
 
-// app.use(checkToken);
 
 app.use('/',authRouter);
-app.use('/api',router);
+app.use('/api',routerAPI);
 app.get('/*', (req, res) => {
 	res.sendFile(path.resolve(__dirname,'../client/index.html'));
 })
