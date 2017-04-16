@@ -63,7 +63,6 @@ User.checkIfUserExists(username)
  });
 }
 
-
 module.exports = {
 	signin,
 	signup

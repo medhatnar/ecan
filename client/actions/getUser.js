@@ -1,15 +1,16 @@
 import axios from 'axios';
 import { GET_USER } from '../constants/constants.js';
 
-export function getUser() {
+export function getUser(user, token) {
 
-  let currentUser = axios.get('/auth/getUrl')
- 					     .then(url => {
- 					     	console.log("URL",url)
- 					     	window.open(url.data, 'auth')
+  let userAuth = axios.post('/auth/getUser', {user})
+ 					     .then( token => {
+ 					     	
+ 					     	localStorage.setItem('gauth',JSON.stringify(token.data));
  					     })
+
     return {
 	  type: GET_USER,
-	  payload: currentUser
+	  payload: userAuth
   };
 };

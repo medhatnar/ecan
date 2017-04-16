@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router'
 import { getMail } from '../actions/getMail.js';
 import { getUser } from '../actions/getUser.js';
 import { getAuth } from '../actions/getAuth.js';
@@ -14,35 +15,30 @@ class InboxBody extends Component {
   }
 
   getAuth() {
-
+    console.log("get auth")
   this.props.getAuth();
 
   }
 
   componentWillMount() {
+    if(!localStorage.token) {
+      this.props.history.push('/')
+    } 
 
-    if(localStorage.token) {
-      this.getAuth(localStorage.username);
-      //redirect to login
-    } else {
-      console.log("jwt token present",localStorage)
-      // with token find user with this current token and see if they have a valid gmail token
-      // if they do not have a valid gmail token, run get_url.js and redirect to AuthURL.(begin Auth process)
-      // if they do have a valid gmail token then load up their inbox on to the page.
+     if(!localStorage.gAuth) {
+      this.props.getUser(localStorage.username);
     }
-    //this container should map to props and dispatch props.
-    // props to create: 
-    // User Info: Profile pic, name, email handle.
-      //inbox 
-      // ifRead, (If unread is present also load number next to inbox of unread)
-      // subject 
-      // title, 
-      // sender, 
-      // time of receiving email,
-      // whether attachment is present
+
+  }
+
+  componentDidMount() {
+    if(localStorage.gAuth === null) {
+      this.getAuth();
+    } 
   }
 
   render() {
+
     return (
 
       <div className="container" id="mainContainer">
@@ -443,15 +439,14 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ getUser, getAuth, getMail}, dispatch);
 }
 
-// function mapStateToProps(state) {
-//   console.log(state.newStr)
-//   return {
-//     newStr: state.newStr,
-//     result: state.result
-//   };
-// }
+function mapStateToProps(state) {
+  console.log("PRRRROPS", state.auth)
+  return {
+    auth: state.auth
+  };
+}
 
-export default connect(null,mapDispatchToProps)(InboxBody);
+export default withRouter(connect(null,mapDispatchToProps)(InboxBody));
 
       
                     

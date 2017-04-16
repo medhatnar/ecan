@@ -17,7 +17,7 @@ var GToken = require('../database/models/UserModel.js');
         if(err) console.log(err)
 
         var toke = JSON.stringify(token);
-        if(token) console.log("REFRESHINGGGGGGGGGG", token.refresh_token)
+
         oauth2Client.setCredentials({
         access_token: token.access_token,
         refresh_token: token.refresh_token,
@@ -33,11 +33,13 @@ var GToken = require('../database/models/UserModel.js');
              function(err,res) {
               if(err) console.log("ERROR:", err);
 
-              console.log("RESSSSSSS", res)
+                GToken.storeGAuth(res.emailAddress, toke);
              })
           }
+
           getUserInfo(oauth2Client)
-        res.send(toke)
+
+        res.redirect("/")
       });
    
   }

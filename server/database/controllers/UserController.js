@@ -1,5 +1,6 @@
 const path = require('path');
 const request = require('request');
+const user = require('../models/UserModel.js');
 const auth = require('../../auth/auth.js');
 
 let newUserSignup = (req,res) => {
@@ -14,8 +15,17 @@ let userLogin = (req,res) => {
 	auth.signin(username,password,res);
 }
 
+let getUser = (req, res) => {
+
+	let username = req.body.user
+	let inputToken = req.body.token
+	
+	console.log("WHAT IT DO", user.getGAuth(username, res));
+}
+
 
 module.exports = {
  newUserSignup,
- userLogin
+ userLogin,
+ getUser
 };

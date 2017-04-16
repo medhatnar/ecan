@@ -108,7 +108,7 @@ handleSubmit (event) {
                   </fieldset>
                 </form>
               </div>
-              <p className="sign_up_text"> Already have an account? <Link to="/loginform">Login here!</Link> </p>
+              <p className="sign_up_text"> Already have an account? <Link to="/">Login here!</Link> </p>
             </div>
           </div>
         </div>

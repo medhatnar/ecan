@@ -1,8 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import InboxBody from '../containers/inboxbody.jsx';
+import { bindActionCreators } from 'redux'; 
+import { getUser } from '../actions/getUser.js';
 import { Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import axios from 'axios';
@@ -21,17 +21,23 @@ class Login extends Component {
   this.handleSubmit = this.handleSubmit.bind(this);
   this.onUserChange = this.onUserChange.bind(this);
   this.onPasswordChange = this.onPasswordChange.bind(this);
+  
   }
 
 
 componentWillMount() {
   if(localStorage.token) {
-
-    // this.setState({isAuth: true})
+    
+    this.setState({isAuth: true})
+    console.log(this.state.isAuth)
     //compare to backend token
     //create an action that takes token from LS, sends to backend to compare, verifies, sends back bool.
     //if bool is true then redirect to inbox, if bool is false, do nothing.
   }
+}
+
+componentDidMount() {
+  this.setState({isAuth: this.props.auth})
 }
 
 onUserChange(event) {
@@ -120,5 +126,11 @@ handleSubmit (event) {
   }
 }
 
+function mapDispatchToProps(dispatch) {
+ 
+  return bindActionCreators({ getUser }, dispatch);
+}
 
-export default Login;
+
+
+export default connect(null,mapDispatchToProps)(Login);
