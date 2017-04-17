@@ -7,7 +7,7 @@ export function getUser(user) {
  					     .then( token => {
  					     	console.log("TOKENNNNNNN", token)
  					     	localStorage.setItem('gauth',JSON.stringify(token.data));
- 					     	location.reload();
+ 					     
  					     })
 
     return {
