@@ -51,7 +51,7 @@ let getUserToken = (username) => {
 let getGAuth = (username, res) => {
 	return knex.raw(`select gauth from users where username = '${username}'`)
 			   .then(token => {
-		
+				console.log("EREHEREEEEE TOKEN: ", token)
 			   	res.send(token[0][0].gauth);
 
 			   })
@@ -60,6 +60,7 @@ let getGAuth = (username, res) => {
 let storeGAuth = (email, token) => {
 	return knex.raw(`update users set gauth = '${token}' where email = '${email}'`)
 			   .then(res => {
+			   	console.log("TOKEN TO BE STORED IN GAUTH COLUMN: ", token)
 			   	console.log("G AUTH STORED YES!", res)
 			   })
 }

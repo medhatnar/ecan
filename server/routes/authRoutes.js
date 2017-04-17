@@ -10,7 +10,7 @@ router.post('/auth/login', UserController.userLogin);
 
 router.post('/auth/signup', UserController.newUserSignup);
 
-router.get('/callback/gauth',(req,res) => {
+router.get('/auth/callback/gauth',(req,res) => {
 console.log("HEEEEEEEEEEEEEEEEEEEY")
 	var code = req._parsedUrl.query.slice(5);
 	console.log(code)

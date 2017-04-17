@@ -12,7 +12,7 @@ require('dotenv').config();
       var clientId = process.env.id
       var redirectUrl = process.env.redirect
       var javascriptOrigins = process.env.origins
-      console.log("RU", redirectUrl);
+      console.log("RU",redirectUrl);
       var auth = new googleAuth();
       var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl, javascriptOrigins);
 

@@ -49,17 +49,16 @@ class InboxBody extends Component {
     } 
 
      if(!localStorage.gauth) {
-      this.props.getUser(localStorage.username);
+      
+      this.getAuth(localStorage.username)
+      
     } else {
       this.props.getMail(localStorage.gauth);
     }
-
-  }
+}
 
   componentDidMount() {
-    if( !localStorage.gauth || localStorage.gauth.length === 2) {
-      this.getAuth();
-    } 
+    this.props.getUser(localStorage.username);
   }
 
   render() {

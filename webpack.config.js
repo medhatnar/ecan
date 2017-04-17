@@ -10,6 +10,7 @@ var config = {
     path: BUILD_DIR,
     filename: 'bundle.js'
   },
+   historyApiFallback: true,
   module : {
     loaders : [
       {
@@ -27,7 +28,7 @@ var config = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-  ],
+  ]
 };
 
 module.exports = config;

@@ -7,7 +7,7 @@ export function getAuth(username) {
  					     .then(url => {
  					     	console.log("URL",url.data);
 
- 					     	window.open(url.data)
+ 					     	location.href = url.data;
  					     })
     return {
 	  type: GET_AUTH,
