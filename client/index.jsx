@@ -8,7 +8,8 @@ import promise from 'redux-promise';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route } from 'react-router-dom';
+
 
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 

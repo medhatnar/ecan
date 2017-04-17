@@ -1,11 +1,11 @@
-export default function(state = null, action) {
+export default function(state = [], action) {
   switch(action.type) {
 
-  case 'REVERSE':
+  case 'GET_MAIL':
 
-  console.log("ACTION PAYLOAD:", action.payload)
+  console.log("YOU'VE GOT MAIL")
 
-    return action.payload
+    return [action.payload,...state]
   }
 
   return state;

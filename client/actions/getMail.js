@@ -2,10 +2,11 @@ import axios from 'axios';
 import { GET_MAIL} from '../constants/constants.js';
 
 export function getMail(gauth) {
-	console.log("GAUTHERINFOOOOOO: ", gauth)
-  let inbox = axios.post('/getMail')
+
+  let inbox = axios.post('/api/getMail', { gauth })
  					     .then(emails => {
- 					     	console.log("YOU've GOT MAIL: ",emails);
+ 					     	console.log(emails)
+ 					     	return emails.data;
  					     })
     return {
 	  type: GET_MAIL,

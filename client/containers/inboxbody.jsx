@@ -1,4 +1,5 @@
 import React from 'react';
+import map from 'lodash.map';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,6 +11,7 @@ import { getAuth } from '../actions/getAuth.js';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class InboxBody extends Component {
   constructor(props) {
@@ -32,6 +34,8 @@ class InboxBody extends Component {
     console.log("LOGGING OUT LOGGING OUT")
     localStorage.removeItem('token');
     localStorage.removeItem('gauth');
+    localStorage.setItem('gauth', null);
+    localStorage.clear();
     console.log(localStorage)
     this.props.log(false);
     this.setState({isAuth: this.props.logging});
@@ -46,17 +50,51 @@ class InboxBody extends Component {
     } 
 
      if(!localStorage.gauth) {
-      this.props.getUser(localStorage.username);
+      
+      this.getAuth(localStorage.username)
+      
     } else {
+
+      console.log("HELLOOOO")
       this.props.getMail(localStorage.gauth);
     }
-
-  }
+}
 
   componentDidMount() {
-    if(localStorage.gauth === null) {
-      this.getAuth();
-    } 
+    this.props.getUser(localStorage.username);
+  }
+
+  renderInbox() {
+
+     console.log(this.props.mail[0])
+
+  return (
+   map( this.props.mail[0], (info, i) => {
+  
+      return info.map((data, i) => {
+        console.log(data)
+
+        if(data[i]['Message-ID']) {let id = data ? data[i]['Message-ID'] : i;}
+        if(data[i]['Date'])  {let date = data[i]['Date'];}
+        if(data[i]['From']) { let sender = data[i]['From'];}
+        if(data[i]['To'])  {let receiver = data[i]['To'];}
+        if(data[i]['Subject']) {let subject = data[i]['Subject'] ? data[i]['Subject'] : 'No Subject'; }
+               
+                return (
+                  <tr className="unread">
+                        <td className="inbox-small-cells">
+                          <input type="checkbox" className="mail-checkbox" />
+                        </td>
+                        <td className="inbox-small-cells"><i className="fa fa-star" /></td>
+                        <td className="view-message  dont-show">PHPClass</td>
+                        <td className="view-message ">Added a new class: Login Class Fast Site</td>
+                        <td className="view-message  inbox-small-cells">trashcan</td>
+                        <td className="view-message  text-right">9:27 AM</td>
+                      </tr>
+                    )       
+                })
+          })
+      )
   }
 
   render() {
@@ -83,7 +121,7 @@ class InboxBody extends Component {
               </div>
 
               
-       <DropDownMenu value={4}>
+       <DropDownMenu value={2}>
           <MenuItem onTouchTap={this.handleLogout} primaryText="Logout"/>
         </DropDownMenu>
         <br />
@@ -256,206 +294,7 @@ class InboxBody extends Component {
                     <td className="view-message  inbox-small-cells">trashcan</td>
                     <td className="view-message  text-right">9:27 AM</td>
                   </tr>
-                  <tr className="unread">
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Google Webmaster </td>
-                    <td className="view-message">Improve the search presence of WebSite</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">March 15</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">JW Player</td>
-                    <td className="view-message">Last Chance: Upgrade to Pro for </td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">March 15</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Tim Reid, S P N</td>
-                    <td className="view-message">Boost Your Website Traffic</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">April 01</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star inbox-started" /></td>
-                    <td className="view-message dont-show">Freelancer.com <span className="label label-danger pull-right">urgent</span></td>
-                    <td className="view-message">Stop wasting your visitors </td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">May 23</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star inbox-started" /></td>
-                    <td className="view-message dont-show">WOW Slider </td>
-                    <td className="view-message">New WOW Slider v7.8 - 67% off</td>
-                    <td className="view-message inbox-small-cells"><i className="fa fa-paperclip" /></td>
-                    <td className="view-message text-right">March 14</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star inbox-started" /></td>
-                    <td className="view-message dont-show">LinkedIn Pulse</td>
-                    <td className="view-message">The One Sign Your Co-Worker Will Stab</td>
-                    <td className="view-message inbox-small-cells"><i className="fa fa-paperclip" /></td>
-                    <td className="view-message text-right">Feb 19</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Drupal Community<span className="label label-success pull-right">megazine</span></td>
-                    <td className="view-message view-message">Welcome to the Drupal Community</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">March 04</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Facebook</td>
-                    <td className="view-message view-message">Somebody requested a new password </td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">June 13</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Skype <span className="label label-info pull-right">family</span></td>
-                    <td className="view-message view-message">Password successfully changed</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">March 24</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star inbox-started" /></td>
-                    <td className="view-message dont-show">Google+</td>
-                    <td className="view-message">alireza, do you know</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">March 09</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star inbox-started" /></td>
-                    <td className="dont-show">Zoosk </td>
-                    <td className="view-message">7 new singles we think you'll like</td>
-                    <td className="view-message inbox-small-cells"><i className="fa fa-paperclip" /></td>
-                    <td className="view-message text-right">May 14</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">LinkedIn </td>
-                    <td className="view-message">Alireza: Nokia Networks, System Group and </td>
-                    <td className="view-message inbox-small-cells"><i className="fa fa-paperclip" /></td>
-                    <td className="view-message text-right">February 25</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="dont-show">Facebook</td>
-                    <td className="view-message view-message">Your account was recently logged into</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">March 14</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Twitter</td>
-                    <td className="view-message">Your Twitter password has been changed</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">April 07</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">InternetSeer Website Monitoring</td>
-                    <td className="view-message">http://golddesigner.org/ Performance Report</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">July 14</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star inbox-started" /></td>
-                    <td className="view-message dont-show">AddMe.com</td>
-                    <td className="view-message">Submit Your Website to the AddMe Business Directory</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">August 10</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Terri Rexer, S P N</td>
-                    <td className="view-message view-message">Forget Google AdWords: Un-Limited Clicks fo</td>
-                    <td className="view-message inbox-small-cells"><i className="fa fa-paperclip" /></td>
-                    <td className="view-message text-right">April 14</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Bertina </td>
-                    <td className="view-message">IMPORTANT: Don't lose your domains!</td>
-                    <td className="view-message inbox-small-cells"><i className="fa fa-paperclip" /></td>
-                    <td className="view-message text-right">June 16</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star inbox-started" /></td>
-                    <td className="view-message dont-show">Laura Gaffin, S P N </td>
-                    <td className="view-message">Your Website On Google (Higher Rankings Are Better)</td>
-                    <td className="view-message inbox-small-cells" />
-                    <td className="view-message text-right">August 10</td>
-                  </tr>
-                  <tr className>
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message dont-show">Facebook</td>
-                    <td className="view-message view-message">Alireza Zare Login faild</td>
-                    <td className="view-message inbox-small-cells"><i className="fa fa-paperclip" /></td>
-                    <td className="view-message text-right">feb 14</td>
-                  </tr>
+                  {this.renderInbox()}
                 </tbody>
               </table>
             </div>
@@ -472,9 +311,8 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log("PRRRROPS", state.logging)
   return {
-    logging: state.logging
+    logging: state.logging, mail: state.mail
   };
 }
 

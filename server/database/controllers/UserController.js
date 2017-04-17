@@ -16,9 +16,9 @@ let userLogin = (req,res) => {
 }
 
 let getUser = (req, res) => {
-
 	let username = req.body.user
 	let inputToken = req.body.token
+	console.log("INPUT TOKEN?", inputToken)
 	
 	console.log("WHAT IT DO", user.getGAuth(username, res));
 }

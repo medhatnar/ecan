@@ -7,12 +7,8 @@ var utf8 = require('utf8');
 var async = require('async');
 
 
-function getOAuth2Client(cb) {
+function getOAuth2Client(token, cb) {
     // Load client secrets
-    fs.readFile('client_secret.json', function(err, data) {
-      if (err) {
-        return cb(err);
-      }
 	  var clientSecret = process.env.secreto
       var clientId = process.env.id
       var redirectUrl = process.env.redirect
@@ -21,15 +17,10 @@ function getOAuth2Client(cb) {
 
 
       // Load credentials
-      fs.readFile('gmail-credentials.json', function(err, token) {
-        if (err) {
-          return cb(err);
-        } else {
           oauth2Client.credentials = JSON.parse(token);
           return cb(null, oauth2Client);
-        }
-      });
-    });
+       
+
   }
 
 var counter = 0;
@@ -58,7 +49,7 @@ function myFilter(collection) {
     return newArr
 };
 
-function listMessages(auth, cb) {
+function listMessages(auth, cb, res) {
 
   var gmail = google.gmail('v1');
 
@@ -99,24 +90,14 @@ function listMessages(auth, cb) {
                  return myFilter(msg.payload.headers)
                })
 
-                console.log("DONE", filteredData)
+                res.send(filteredData);
                 
              })
 
       })
 }
 
-  getOAuth2Client(function(err, oauth2Client) {
-    if (err) {
-      console.log('err:', err);
-    } else {
-      listMessages(oauth2Client, function(err, results) {
-        if (err) {
-          console.log('err:', err);
-        } else {
-          console.log("FINAL OOOOOOOOOOOOOOOOOOUT PUT", results)
-          return results;
-        }
-      });
-    }
-  });
+module.exports = {
+	getOAuth2Client,
+	listMessages
+}

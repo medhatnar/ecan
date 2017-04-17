@@ -11,9 +11,10 @@ require('dotenv').config();
       var clientSecret = process.env.secreto
       var clientId = process.env.id
       var redirectUrl = process.env.redirect
-      console.log("CI,CS,RU",clientId, clientSecret, redirectUrl);
+      var javascriptOrigins = process.env.origins
+      console.log("RU",redirectUrl);
       var auth = new googleAuth();
-      var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+      var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl, javascriptOrigins);
 
       var authUrl = oauth2Client.generateAuthUrl({
         access_type: 'offline',
