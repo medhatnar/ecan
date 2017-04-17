@@ -10,6 +10,7 @@ import { getAuth } from '../actions/getAuth.js';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class InboxBody extends Component {
   constructor(props) {
@@ -32,6 +33,8 @@ class InboxBody extends Component {
     console.log("LOGGING OUT LOGGING OUT")
     localStorage.removeItem('token');
     localStorage.removeItem('gauth');
+    localStorage.setItem('gauth', null);
+    localStorage.clear();
     console.log(localStorage)
     this.props.log(false);
     this.setState({isAuth: this.props.logging});
@@ -54,7 +57,7 @@ class InboxBody extends Component {
   }
 
   componentDidMount() {
-    if(localStorage.gauth === null) {
+    if( !localStorage.gauth || localStorage.gauth.length === 2) {
       this.getAuth();
     } 
   }
@@ -83,7 +86,7 @@ class InboxBody extends Component {
               </div>
 
               
-       <DropDownMenu value={4}>
+       <DropDownMenu value={2}>
           <MenuItem onTouchTap={this.handleLogout} primaryText="Logout"/>
         </DropDownMenu>
         <br />

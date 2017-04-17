@@ -26,18 +26,13 @@ app.use(flash());
 
 app.use(express.static(path.join(__dirname, '../client')));
 
-app.get('/', (req,res) => {
 
-	res.send(express.static(path.join(__dirname, '../client')))
-
-})
-
-
-app.use('/',authRouter);
-app.use('/api',routerAPI);
 app.get('/*', (req, res) => {
 	res.sendFile(path.resolve(__dirname,'../client/index.html'));
 })
+
+app.use('/api',routerAPI);
+app.use('/',authRouter);
 
 const port = process.env.PORT || 3006;
 app.listen(port,(err) => {
