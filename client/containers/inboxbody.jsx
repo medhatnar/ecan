@@ -70,29 +70,25 @@ class InboxBody extends Component {
 
   return (
    map( this.props.mail[0], (info, i) => {
-  
-      return info.map((data, i) => {
-        console.log(data)
-
-        if(data[i]['Message-ID']) {let id = data ? data[i]['Message-ID'] : i;}
-        if(data[i]['Date'])  {let date = data[i]['Date'];}
-        if(data[i]['From']) { let sender = data[i]['From'];}
-        if(data[i]['To'])  {let receiver = data[i]['To'];}
-        if(data[i]['Subject']) {let subject = data[i]['Subject'] ? data[i]['Subject'] : 'No Subject'; }
-               
+      console.log("INFO: ", i, info['From'])
+      //  if(info['Message-ID']) {let id = data ? data[i]['Message-ID'] : i;}
+        //if(info['Date'])  {let date = data[i]['Date'];}
+        // if(data[i]['From']) { let sender = data[i]['From'];}
+        // if(data[i]['To'])  {let receiver = data[i]['To'];}
+        // if(data[i]['Subject']) {let subject = data[i]['Subject'] ? data[i]['Subject'] : 'No Subject'; }
                 return (
                   <tr className="unread">
                         <td className="inbox-small-cells">
                           <input type="checkbox" className="mail-checkbox" />
                         </td>
                         <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                        <td className="view-message  dont-show">PHPClass</td>
-                        <td className="view-message ">Added a new class: Login Class Fast Site</td>
+                        <td className="view-message  dont-show">{info['From']}</td>
+                        <td className="view-message ">{info['Subject'] ? info['Subject'] : "No Subject"}</td>
                         <td className="view-message  inbox-small-cells">trashcan</td>
-                        <td className="view-message  text-right">9:27 AM</td>
+                        <td className="view-message  text-right">{info['Date']}</td>
                       </tr>
                     )       
-                })
+
           })
       )
   }
@@ -284,16 +280,6 @@ class InboxBody extends Component {
               </div>
               <table className="table table-inbox table-hover">
                 <tbody>
-                  <tr className="unread">
-                    <td className="inbox-small-cells">
-                      <input type="checkbox" className="mail-checkbox" />
-                    </td>
-                    <td className="inbox-small-cells"><i className="fa fa-star" /></td>
-                    <td className="view-message  dont-show">PHPClass</td>
-                    <td className="view-message ">Added a new class: Login Class Fast Site</td>
-                    <td className="view-message  inbox-small-cells">trashcan</td>
-                    <td className="view-message  text-right">9:27 AM</td>
-                  </tr>
                   {this.renderInbox()}
                 </tbody>
               </table>

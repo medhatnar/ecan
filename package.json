@@ -69,6 +69,7 @@
     "jsonwebtoken": "^7.3.0",
     "knex": "^0.12.7",
     "lodash": "^3.10.1",
+    "lodash.indexof": "^4.0.5",
     "lodash.map": "^4.6.0",
     "material-ui": "^0.17.4",
     "morgan": "^1.8.1",

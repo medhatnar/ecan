@@ -5,6 +5,7 @@ var googleAuth = require('google-auth-library');
 var base64 = require('base-64');
 var utf8 = require('utf8');
 var async = require('async');
+var indexOf = require('lodash.indexof');
 
 
 function getOAuth2Client(token, cb) {
@@ -23,7 +24,6 @@ function getOAuth2Client(token, cb) {
 
   }
 
-var counter = 0;
 
 function decodeFromBase64(input) {
   input = input.replace(/\s/g, '');
@@ -31,31 +31,24 @@ function decodeFromBase64(input) {
 }
 
 function myFilter(collection) {
-    var newArr = [];
+
+    var obj = {};
     collection.forEach(function(val) {
-      console.log(counter++, val.name)
-      var obj = {};
       if(val.name === "From" ||
          val.name === "Subject" || 
          val.name === "Date"  ||
          val.name === "To" ||
          val.name === "Message-ID") { 
-        console.log("MADE IT", val)
           obj[val.name] = val.value
-          console.log("OBJECYYYYYYYYYYYYYYYYY: ",obj)
-        newArr.push(obj)
       }
     })
-    return newArr
+    return obj
 };
 
 function listMessages(auth, cb, res) {
 
   var gmail = google.gmail('v1');
 
-  function getResult(array) {
-    async.map
-  }
 
   gmail.users.messages.list({
     auth: auth,
@@ -71,7 +64,7 @@ function listMessages(auth, cb, res) {
       return;
     }
     var msgData = response.messages;
-
+    console.log("COPIES", msgData)
     async.map(msgData, function(msg, callback) {
 
               gmail.users.messages.get({
