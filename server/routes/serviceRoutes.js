@@ -5,6 +5,7 @@ const GroupsController = require('../database/controllers/GroupsController.js');
 const PermissionsController = require('../database/controllers/PermissionsController.js');
 
 routerAPI.post('/getMail',(req,res) => {
+  console.log("GETTING MAIL")
 		let gauth = req.body.gauth;
 
 	Gauth.getOAuth2Client(gauth, function(err, oauth2Client) {
@@ -18,7 +19,7 @@ routerAPI.post('/getMail',(req,res) => {
           console.log("FINAL OOOOOOOOOOOOOOOOOOUT PUT", results)
           return results;
         }
-      });
+      }, res);
     }
   });
 });

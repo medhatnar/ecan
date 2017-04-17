@@ -49,7 +49,7 @@ function myFilter(collection) {
     return newArr
 };
 
-function listMessages(auth, cb) {
+function listMessages(auth, cb, res) {
 
   var gmail = google.gmail('v1');
 

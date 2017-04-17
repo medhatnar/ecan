@@ -53,6 +53,8 @@ class InboxBody extends Component {
       this.getAuth(localStorage.username)
       
     } else {
+      
+      console.log("HELLOOOO")
       this.props.getMail(localStorage.gauth);
     }
 }
@@ -474,9 +476,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log("PRRRROPS", state.logging)
+  console.log("PRRRROPS", state.mail)
   return {
-    logging: state.logging
+    logging: state.logging, mail: state.mail
   };
 }
 

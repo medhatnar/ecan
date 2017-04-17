@@ -5,7 +5,8 @@ export function getMail(gauth) {
 
   let inbox = axios.post('/api/getMail', { gauth })
  					     .then(emails => {
- 					     	console.log("YOU've GOT MAIL: ",emails);
+ 					     	console.log(emails)
+ 					     	return emails.data;
  					     })
     return {
 	  type: GET_MAIL,
