@@ -54,7 +54,7 @@ function listMessages(auth, cb, res) {
     auth: auth,
     format:'full',
     userId: 'me',
-    maxResults: 25,
+    maxResults: 35,
     labelIds: ['INBOX', 'CATEGORY_PERSONAL']
   }, 
 
@@ -64,7 +64,19 @@ function listMessages(auth, cb, res) {
       return;
     }
     var msgData = response.messages;
-    console.log("COPIES", msgData)
+
+    let s = new Set()
+    console.log("CAUSE LOVING YOU IS", msgData.length)
+    msgData.forEach((pair, i) => {
+      if(!s.has(pair.threadId)) {
+        s.add(pair.threadId)
+      } else {
+        msgData.splice(i,1);
+      }
+    })
+
+    console.log("EASY", msgData.length)
+
     async.map(msgData, function(msg, callback) {
 
               gmail.users.messages.get({

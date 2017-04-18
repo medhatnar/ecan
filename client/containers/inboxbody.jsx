@@ -10,6 +10,7 @@ import { getUser } from '../actions/getUser.js';
 import { getAuth } from '../actions/getAuth.js';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import Delete from 'material-ui/svg-icons/action/delete';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 
@@ -84,7 +85,11 @@ class InboxBody extends Component {
                         <td className="inbox-small-cells"><i className="fa fa-star" /></td>
                         <td className="view-message  dont-show">{info['From']}</td>
                         <td className="view-message ">{info['Subject'] ? info['Subject'] : "No Subject"}</td>
-                        <td className="view-message  inbox-small-cells">trashcan</td>
+                        <td className="view-message  inbox-small-cells">
+
+                         <Delete />
+
+                        </td>
                         <td className="view-message  text-right">{info['Date']}</td>
                       </tr>
                     )       
