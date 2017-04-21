@@ -92,6 +92,7 @@
     "redux": "^3.0.4",
     "redux-thunk": "^2.2.0",
     "request": "^2.79.0",
+    "semantic-ui-react": "^0.68.0",
     "webpack": "^1.12.9"
   }
 }

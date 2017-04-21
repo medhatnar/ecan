@@ -10,9 +10,17 @@ import { getUser } from '../actions/getUser.js';
 import { getAuth } from '../actions/getAuth.js';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton'
 import Delete from 'material-ui/svg-icons/action/delete';
+import ComposeForm from './composeform.jsx'
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
+
+const styles = {
+  backgroundColor:'ef5350',
+  color: 'white',
+  button: {backgroundColor:'b71c1c'}
+}
 
 class InboxBody extends Component {
   constructor(props) {
@@ -40,9 +48,7 @@ class InboxBody extends Component {
     console.log(localStorage)
     this.props.log(false);
     this.setState({isAuth: this.props.logging});
-    console.log("HERRRRRRRRRRRRRRRRRRO AUTH: ", this.state.isAuth)
     location.reload();
-    console.log("reload")
   }
 
   componentWillMount() {
@@ -56,7 +62,6 @@ class InboxBody extends Component {
       
     } else {
 
-      console.log("HELLOOOO")
       this.props.getMail(localStorage.gauth);
     }
 }
@@ -71,12 +76,7 @@ class InboxBody extends Component {
 
   return (
    map( this.props.mail[0], (info, i) => {
-      console.log("INFO: ", i, info['From'])
-      //  if(info['Message-ID']) {let id = data ? data[i]['Message-ID'] : i;}
-        //if(info['Date'])  {let date = data[i]['Date'];}
-        // if(data[i]['From']) { let sender = data[i]['From'];}
-        // if(data[i]['To'])  {let receiver = data[i]['To'];}
-        // if(data[i]['Subject']) {let subject = data[i]['Subject'] ? data[i]['Subject'] : 'No Subject'; }
+
                 return (
                   <tr className="unread">
                         <td className="inbox-small-cells">
@@ -129,10 +129,9 @@ class InboxBody extends Component {
 
             </div>
             <div className="inbox-body">
-              <a href="#myModal" data-toggle="modal" title="Compose" className="btn btn-compose">
-                Compose
-              </a>
-              {/* Modal */}
+
+            <ComposeForm/>
+
               <div aria-hidden="false" aria-labelledby="myModalLabel" role="dialog" tabIndex={-1} id="myModal" className="modal fade" style={{display: 'none'}}>
                 <div className="modal-dialog">
                   <div className="modal-content">

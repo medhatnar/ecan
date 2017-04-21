@@ -24,5 +24,9 @@ routerAPI.post('/getMail',(req,res) => {
   });
 });
 
+routerAPI.post('/getTemplate',(req, res) => {
+  
+})
+
 
 module.exports = routerAPI;
