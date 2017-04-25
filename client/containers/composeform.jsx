@@ -62,7 +62,6 @@ render() {
               <Form.Group inline>
               </Form.Group>
               <Form.TextArea label='Body:' placeholder='Message Here' spellcheck='true' />
-                      YOOOOOOOOOOOOOOOOOOOOOOo
               <Form.Checkbox label='Save as Draft' onClick={() => console.log(this.state.template)} />
               <Form.Checkbox label='Delete' onClick={() => this.handleClose()} />
               <Form.Button>Submit</Form.Button>
