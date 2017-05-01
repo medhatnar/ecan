@@ -34,7 +34,6 @@ onUserChange(event) {
   this.setState({
     username: event.target.value
    });  
-  console.log(this.state.username)
 }
 
 onPasswordChange(event) {
@@ -63,21 +62,15 @@ handleSubmit (event) {
   	   		let token = res.data.token;
   	   		let user = res.data.username;
   	   		let message = res.data.message;
-  	   		console.log("SIGNUP SUCCESS?",res);
 
   	   		if(!token) {
   	   			this.setState({ message })
   	   		} else {
-            console.log("hello?")
   	   			localStorage.clear();
-  	   			console.log("Emptied:",localStorage);
   	   			localStorage.setItem('token', token);
-  	   			console.log(user)
   	   			localStorage.setItem('username', user);
-  	   			console.log(localStorage);
             this.setState({isAuth: true})
             location.reload();
-            console.log("reload?")
   	   		}
   	   })
 }

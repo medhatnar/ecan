@@ -6,8 +6,6 @@ export function log(bool) {
 
   	let newBool = bool;
 
-  	console.log("NEW BOOOL: ", newBool)
-
   	if(bool) {
 	  return {
 	    type: LOGIN,

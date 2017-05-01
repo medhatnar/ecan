@@ -5,25 +5,23 @@ var googleAuth = require('google-auth-library');
 var base64 = require('base-64');
 var utf8 = require('utf8');
 var async = require('async');
+var indexOf = require('lodash.indexof');
 
 
 function getOAuth2Client(token, cb) {
     // Load client secrets
-	  var clientSecret = process.env.secreto
-      var clientId = process.env.id
-      var redirectUrl = process.env.redirect
-      var auth = new googleAuth();
-      var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+  var clientSecret = process.env.secreto
+  var clientId = process.env.id
+  var redirectUrl = process.env.redirect
+  var auth = new googleAuth();
+  var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
 
-      // Load credentials
-          oauth2Client.credentials = JSON.parse(token);
-          return cb(null, oauth2Client);
-       
+  // Load credentials
+      oauth2Client.credentials = JSON.parse(token);
+      return cb(null, oauth2Client);
+}
 
-  }
-
-var counter = 0;
 
 function decodeFromBase64(input) {
   input = input.replace(/\s/g, '');
@@ -31,37 +29,30 @@ function decodeFromBase64(input) {
 }
 
 function myFilter(collection) {
-    var newArr = [];
+
+    var obj = {};
     collection.forEach(function(val) {
-      console.log(counter++, val.name)
-      var obj = {};
       if(val.name === "From" ||
          val.name === "Subject" || 
          val.name === "Date"  ||
          val.name === "To" ||
          val.name === "Message-ID") { 
-        console.log("MADE IT", val)
           obj[val.name] = val.value
-          console.log("OBJECYYYYYYYYYYYYYYYYY: ",obj)
-        newArr.push(obj)
       }
     })
-    return newArr
+    return obj
 };
 
 function listMessages(auth, cb, res) {
 
   var gmail = google.gmail('v1');
 
-  function getResult(array) {
-    async.map
-  }
 
   gmail.users.messages.list({
     auth: auth,
     format:'full',
     userId: 'me',
-    maxResults: 25,
+    maxResults: 35,
     labelIds: ['INBOX', 'CATEGORY_PERSONAL']
   }, 
 
@@ -71,6 +62,16 @@ function listMessages(auth, cb, res) {
       return;
     }
     var msgData = response.messages;
+
+    let s = new Set()
+  
+    msgData.forEach((pair, i) => {
+      if(!s.has(pair.threadId)) {
+        s.add(pair.threadId)
+      } else {
+        msgData.splice(i,1);
+      }
+    })
 
     async.map(msgData, function(msg, callback) {
 

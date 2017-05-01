@@ -2,9 +2,7 @@ require('dotenv').config();
 var fs = require('fs');
 var googleAuth = require('google-auth-library');
 var path = require('path')
-
-  var scopes = require('./scopes');
-require('dotenv').config();
+var scopes = require('./scopes');
 
   function getAuthorizationUrl(cb, username) {
       

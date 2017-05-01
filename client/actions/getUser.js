@@ -5,7 +5,6 @@ export function getUser(user) {
 
   let userAuth = axios.post('/auth/getUser', {user})
  					     .then( token => {
- 					     	console.log("TOKENNNNNNN", token)
  					     	localStorage.setItem('gauth',JSON.stringify(token.data));
  					     
  					     })

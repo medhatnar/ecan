@@ -9,15 +9,16 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import { HashRouter as Router, Route } from 'react-router-dom';
-
-
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux'
 
-// import App from './components/app.jsx';
+//import App from './components/app.jsx';
 import Inbox from './containers/inboxbody.jsx';
 import Login from './containers/login.jsx'
+import ComposeForm from './containers/composeform.jsx'
 import Signup from './containers/signup.jsx';
 import reducers from './reducers';
+
+
 
 injectTapEventPlugin();
 
@@ -29,9 +30,10 @@ ReactDOM.render(
        <Provider store={createStoreWithMiddleware(reducers)}>
     <MuiThemeProvider>
          <div>
-           <Route exact path='/' component={Login} />
-           <Route path='/inbox' component={Inbox} />
-           <Route path='/signupForm' component={Signup} />
+        <Route exact path='/' component={Login} />
+      <Route path='/inbox' component={Inbox} />
+     <Route path='/composeForm' component={ComposeForm} />
+      <Route path='/signupForm' component={Signup} />
          </div>
       </MuiThemeProvider>
        </Provider>

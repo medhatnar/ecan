@@ -11,9 +11,8 @@ router.post('/auth/login', UserController.userLogin);
 router.post('/auth/signup', UserController.newUserSignup);
 
 router.get('/auth/callback/gauth',(req,res) => {
-console.log("HEEEEEEEEEEEEEEEEEEEY")
 	var code = req._parsedUrl.query.slice(5);
-	console.log(code)
+
 	var token = GetToken.getAuthorizationToken(code,res);
 })
 
@@ -23,11 +22,11 @@ router.post('/auth/getUrl',(req,res) => {
 
 	const authUrl = JSON.stringify(GetUrl.getAuthorizationUrl());
 
-	res.send(authUrl)
+	res.send(authUrl);
 })
 
 router.get('/auth/token', (req,res) => {
-	console.log("hey store gauth or token")
+	//get access to current token
 })
 
 module.exports = router;
