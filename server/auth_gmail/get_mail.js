@@ -10,19 +10,17 @@ var indexOf = require('lodash.indexof');
 
 function getOAuth2Client(token, cb) {
     // Load client secrets
-	  var clientSecret = process.env.secreto
-      var clientId = process.env.id
-      var redirectUrl = process.env.redirect
-      var auth = new googleAuth();
-      var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+  var clientSecret = process.env.secreto
+  var clientId = process.env.id
+  var redirectUrl = process.env.redirect
+  var auth = new googleAuth();
+  var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
 
-      // Load credentials
-          oauth2Client.credentials = JSON.parse(token);
-          return cb(null, oauth2Client);
-       
-
-  }
+  // Load credentials
+      oauth2Client.credentials = JSON.parse(token);
+      return cb(null, oauth2Client);
+}
 
 
 function decodeFromBase64(input) {
@@ -66,7 +64,7 @@ function listMessages(auth, cb, res) {
     var msgData = response.messages;
 
     let s = new Set()
-    console.log("CAUSE LOVING YOU IS", msgData.length)
+  
     msgData.forEach((pair, i) => {
       if(!s.has(pair.threadId)) {
         s.add(pair.threadId)
@@ -74,8 +72,6 @@ function listMessages(auth, cb, res) {
         msgData.splice(i,1);
       }
     })
-
-    console.log("EASY", msgData.length)
 
     async.map(msgData, function(msg, callback) {
 

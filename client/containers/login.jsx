@@ -31,7 +31,6 @@ componentWillMount() {
   if(localStorage.token) {
     
     this.setState({isAuth: true})
-    console.log(this.state.isAuth)
 
   }
 }
@@ -73,12 +72,9 @@ handleSubmit (event) {
     } else {
     
     this.setState({isAuth: true})
-    console.log("WE IN???", this.state.isAuth)
     location.reload();
-            console.log("Emptied:",localStorage);
             localStorage.setItem('token', token);
             localStorage.setItem('username', this.state.username);
-            console.log(localStorage);
     }     
 
   })
@@ -88,7 +84,6 @@ handleSubmit (event) {
   render() {
     
     if (this.state.isAuth) {
-      console.log("TRUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUE")
       return (
         <Redirect to={'/inbox'}/>
       )
@@ -136,7 +131,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  console.log("PRRRROPS", state.logging)
   return {
     logging: state.logging
   };

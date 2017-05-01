@@ -2,7 +2,7 @@ export default function(state = null, action) {
   switch(action.type) {
 
   case 'LOGIN':
-  	console.log("LOGGIN IN!", action.payload)
+  	console.log("LOGGING IN!", action.payload)
     return action.payload
     break;
 

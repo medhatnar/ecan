@@ -1,3 +1,4 @@
+
 import React from 'react';
 import map from 'lodash.map';
 import { Component } from 'react';
@@ -34,18 +35,15 @@ class InboxBody extends Component {
   }
 
   getAuth() {
-    console.log("get auth")
   this.props.getAuth();
 
   }
 
   handleLogout() {
-    console.log("LOGGING OUT LOGGING OUT")
     localStorage.removeItem('token');
     localStorage.removeItem('gauth');
     localStorage.setItem('gauth', null);
     localStorage.clear();
-    console.log(localStorage)
     this.props.log(false);
     this.setState({isAuth: this.props.logging});
     location.reload();
@@ -71,8 +69,6 @@ class InboxBody extends Component {
   }
 
   renderInbox() {
-
-     console.log(this.props.mail[0])
 
   return (
    map( this.props.mail[0], (info, i) => {
